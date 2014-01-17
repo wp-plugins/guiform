@@ -1,0 +1,66 @@
+
+@charset "UTF-8";
+
+@font-face {
+  font-family: "form";
+  src:url("/css/form.eot");
+  src:url("/css/form.eot?#iefix") format("embedded-opentype"),
+    url("/css/form.ttf") format("truetype"),
+    url("/css/form.svg#form") format("svg"),
+    url("/css/form.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+[data-icon]:before {
+  font-family: "form" !important;
+  content: attr(data-icon);
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+  font-family: "form" !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+.icon-forbidden:before {
+  content: "b";
+}
+
+.icon-cancel-circle:before {
+  content: "a";
+}
+
+.icon-cross-mark:before {
+  content: "c";
+}
+
+.icon-fontawesome-webfont:before {
+  content: "d";
+}
+
+.icon-pencil:before {
+  content: "e";
+}
+
+.icon-edit-pen-1:before {
+  content: "f";
+}
+
