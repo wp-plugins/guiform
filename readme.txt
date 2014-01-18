@@ -116,3 +116,9 @@ Awesome form builder with lots of features like what you see is what you get use
 * Add heading tool and properties
 * Fix file upload required error message
 * Minor updates with CSS
+
+
+**Version 1.2 - Jan 18, 2014**
+
+* Add missing files in version 1.1
+* Minor updates with CSS
