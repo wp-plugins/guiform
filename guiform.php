@@ -5,7 +5,7 @@ Plugin URI: https://www.guiform.com
 Description: Awesome form builder with lots of features like <strong>wysiwyg user interface, display form in other website, no conflict with themes css and much more</strong>.
 Author: Russell C. Pabon
 Author URI: http://russellpabon.com
-Version: 1.1
+Version: 1.2
 */
 
 /*  Copyright 2013-2014 Russell C. Pabon (email: russellpabon@guiform.com)

@@ -1,10 +1,10 @@
 === GuiForm ===
 Contributors: russellpabon
-Donate link: https://www.paypal.com/ph/cgi-bin/webscr?cmd=_flow&SESSION=q0yi5HJmG7Gx1FylEcaTXE9trP4h9uscyVDwYgEA5l25pE2OiEy4D9Zk4Oq&dispatch=5885d80a13c0db1f8e263663d3faee8def8934b92a630e40b7fef61ab7e9fe63
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=T68UXN46V3MEC
 Tags: form, forms, form builder, contact form builder, responsive form, contact form, contact forms, form creator, form to email, email form, email, input, validation, jquery, shortcode, form manager
 Requires at least: 3.5
 Tested up to: 3.8
-Stable tag: 1.1
+Stable tag: 1.2
 License: GPLv2 or later
 
 Build your responsive, beautiful and reusable forms and no coding required with this awesome form builder plug-in.

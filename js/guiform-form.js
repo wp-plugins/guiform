@@ -1,5 +1,5 @@
 /*!
- * GuiForm 1.0
+ * GuiForm 1.2
  * https://www.guiform.com
  *
  * By: Russell C. Pabon
@@ -10,7 +10,7 @@
  *	jquery.ui.core.js
  *	jquery.ui.widget.js
  */
- 
+;
 var xhr = {};
 var xhr_name = new Array();
 var xhr_state = {};

@@ -1,5 +1,5 @@
 /*!
- * GuiForm 1.0
+ * GuiForm 1.2
  * https://www.guiform.com
  *
  * By: Russell C. Pabon
