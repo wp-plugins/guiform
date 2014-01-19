@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: form, forms, form builder, contact form builder, responsive form, contact form, contact forms, form creator, form to email, email form, email, input, validation, jquery, shortcode, form manager
 Requires at least: 3.5
 Tested up to: 3.8
-Stable tag: 1.2
+Stable tag: 1.3
 License: GPLv2 or later
 
 Build your responsive, beautiful and reusable forms and no coding required with this awesome form builder plug-in.
@@ -16,7 +16,7 @@ Awesome form builder with lots of features like what you see is what you get use
 
 = Features =
 
-* WYSIWYG UI - What you see is what you get UI form builder.
+* WYSIWYG - What you see is what you get UI form builder.
 * AJAX - Create your form without page load.
 * Server side data entry validation.
 * Drag-and-drop - Adding and shorting of field is easy as ease.
@@ -39,6 +39,8 @@ Awesome form builder with lots of features like what you see is what you get use
 
 = Field Types =
 
+* Heading
+* Text
 * Text input (single line)
 * Textarea (multiple lines)
 * Checkbox
@@ -66,8 +68,8 @@ Awesome form builder with lots of features like what you see is what you get use
 
 = Soucre Code =
 
-* URL – form link
-* Wordpress shortcode – Works on any types of Post, Page and Widget area.
+* URL - form link
+* Wordpress shortcode - Works on any types of Post, Page and Widget area.
 * Javascript source code 
 * Javascript embedded code 
 * PHP short code
@@ -122,3 +124,13 @@ Awesome form builder with lots of features like what you see is what you get use
 
 * Add missing files in version 1.1
 * Minor updates with CSS
+
+
+**Version 1.3 - Jan 19, 2014**
+
+* Add Heading tool
+* Add Text tool
+* Add edit clear form text value
+* Fix widget area shortcode not showing
+* Fix custom link not saving
+* Remove the 0 bug after sending a test email

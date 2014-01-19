@@ -1,4 +1,3 @@
-/*------------------------ Holy CSS Code ----------------------------------------*/
 *{
 outline: 0 none;
 padding: 0px;
@@ -615,7 +614,6 @@ position: relative;
 text-align: right;
 width: 94%;
 font-weight: bold;
-font-size: 12px;
 }
 
 #properties .p_submit_offset_value span{
@@ -885,6 +883,10 @@ color: #21759B;
 font-size: 20px;
 left: 10px;
 position: absolute;
+}
+
+#tools li span.text{
+line-height: 13px;
 }
 
 #tools li:hover span{
@@ -1188,7 +1190,6 @@ width: 100%;
 min-height: 130px;
 height: auto;
 width: 100%;	
-resize: vertical;
 min-height: 150px;
 overflow: hidden;
 padding: 5px;
@@ -1279,6 +1280,10 @@ width: 506px;
 #window-properties .prop-value p{
 margin: 0;
 color: #5e5e5e;
+}
+
+#window-properties .prop-value .icon{
+font-size: 16px;
 }
 
 #tab-notification,

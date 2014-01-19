@@ -16,7 +16,7 @@
 ?>
 
 /*!
- * GuiForm 1.0
+ * GuiForm Plugin
  * https://www.guiform.com
  *
  * By: Russell C. Pabon

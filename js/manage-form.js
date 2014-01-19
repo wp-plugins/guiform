@@ -1,12 +1,11 @@
 /*!
- * GuiForm 1.2
+ * GuiForm Plugin
  * https://www.guiform.com
  *
  * By: Russell C. Pabon
  * http://russellpabon.com
  *
  */
-
 (function () {
     var a = jQuery;
     a(".guif-action").click(function () {
@@ -54,54 +53,6 @@
         var b = a(".wp-list-table thead th[style*='display']").size();
         a(".wp-list-table .inline-edit-row td").attr("colspan", c - b)
     }, 1);
-    a(".form_title").on("click", ".publish", function () {
-        var f = this.id.split("-")[1];
-        var e = a("<img/>");
-        var c = a(this).parent().parent();
-        var b = a(this).parent().html();
-        e.attr("src", guiform.plugins_url + "images/fb-loader.gif");
-        a(c).css("visibility", "visible");
-        a(c).find(".status").html(e);
-        var d = {
-            action: "create-table",
-            id: f
-        };
-        a(this).guifbox({
-            title: "Please confirm your action.",
-            status: "confirm",
-            body: "<p>Publishing this form will generate table to save entries. Are you sure?</p>",
-            url: guiform.ajax_url,
-            data: d,
-            dataType: "html",
-            cache: false,
-            type: "POST",
-            cancel: function () {
-                a(c).find(".status").html(b);
-                a(c).css("visibility", "")
-            },
-            success: function (g) {
-                var h = a("<div />").append(a(g).clone()).html();
-                a(c).css("visibility", "");
-                if (a(h).attr("id") == "error") {
-                    a(c).find(".status").html(h);
-                    a(this).guifbox({
-                        title: "error",
-                        status: "error",
-                        body: h
-                    })
-                } else {
-                    a(c).find(".status").remove();
-                    a(this).guifbox({
-                        title: "success",
-                        status: "success",
-                        body: h,
-                        reload: true
-                    })
-                }
-            }
-        });
-        return false
-    });
     a(".meta-box-sortables").sortable({
         start: function (b, c) {
             a("#guiform .meta-box-sortables").css({

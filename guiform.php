@@ -5,7 +5,7 @@ Plugin URI: https://www.guiform.com
 Description: Awesome form builder with lots of features like <strong>wysiwyg user interface, display form in other website, no conflict with themes css and much more</strong>.
 Author: Russell C. Pabon
 Author URI: http://russellpabon.com
-Version: 1.2
+Version: 1.3
 */
 
 /*  Copyright 2013-2014 Russell C. Pabon (email: russellpabon@guiform.com)
@@ -90,6 +90,7 @@ class GuiForm extends GuiForm_API{
 	 */
 	private function actions(){
 		add_shortcode('GuiForm', array(&$this, 'form_ouput'));
+		add_filter('widget_text', 'do_shortcode');
 		add_action('generate_rewrite_rules', array(&$this, 'rewrite_rules'));
 		add_action('parse_request', array($this, 'action_parse_request'));
 		add_action('admin_menu', array(&$this, 'menu'));
@@ -591,6 +592,7 @@ class GuiForm extends GuiForm_API{
 	public function form_ouput($atts){
 		global $guif;
 		$id = $atts['id'];
+		
 		$guif->form($id);
 	}
 	

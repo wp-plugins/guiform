@@ -329,10 +329,18 @@ margin-left: 2px;
 line-height: normal;
 }
 
-#canvas .sub-text{
+#canvas .f_heading .sub-text{
 font-size: 14px;
 font-weight: normal;
 line-height: normal;
+}
+
+#canvas .f_letter p{
+margin: 0 0 13px;
+}
+
+#canvas .f_letter p:last-of-type{
+margin-bottom: 0;
 }
 
 #canvas .wrap,
@@ -662,6 +670,12 @@ clear: both;
 #canvas .expand .wrap{
 clear: none;
 float: left;
+}
+
+#canvas .f_letter .wrap,
+#canvas .f_heading .wrap{
+display: block !important;
+float: none !important;
 }
 
 #canvas span.short-description{

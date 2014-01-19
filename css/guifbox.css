@@ -119,8 +119,8 @@ cursor: pointer;
 #guifbox-body{
 background-color: #FFFBCC;
 margin: 0 8px;
-/*max-width: 800px;*/
 padding: 8px;
+font-size: 11px;
 }
 
 #guiBox-loader{

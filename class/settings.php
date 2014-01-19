@@ -37,19 +37,15 @@ class Settings_Page{
 	}
 	
 	function page(){
-		
 		switch($this->tab) {
 			case 'general':
 			$this->page_general_update();			
 			$this->page_general();
 			break;
-			
 			case 'mail':
 			$this->page_mail();
 			break;
-			
 		}
-		
 	}
 	
 	private function page_mail(){
@@ -78,7 +74,6 @@ class Settings_Page{
 			$autosave_time = esc_html(intval($_POST['autosave_time']));
 			$skin = esc_html($_POST['skin']);
 			$upload_folder = esc_html(trim($_POST['upload_folder']));
-			$license_key = esc_html(trim($_POST['license_key']));
 			$selection = esc_html($_POST['selection']);
 			$guif->update_option(0, 'skin', $skin);
 			
@@ -117,8 +112,17 @@ class Settings_Page{
 				}
 			}
 			
-			if(!empty($license_key)){
-				$guif->update_option(0, 'license_key', $license_key);
+			$custom = esc_html($_POST['custom']);
+			if($selection == 'custom' && !empty($custom)){
+				$permalink = $guif->get_option(0, 'permalink');
+				$permalink['selection'] =  'custom';
+				$permalink['value']     =  esc_html($_POST['custom']);
+				$guif->update_option(0, 'permalink', $permalink);
+			}
+			else{
+				$permalink['selection'] =  'default';
+				$permalink['value']     =  'form';
+				$guif->update_option(0, 'permalink', $permalink);
 			}
 			
 			echo '<div class="updated"><p><strong>Update settings succesful.</strong></p></div>';

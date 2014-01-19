@@ -1,5 +1,5 @@
 /*!
- * GuiForm 1.2
+ * GuiForm Plugin
  * https://www.guiform.com
  *
  * By: Russell C. Pabon
@@ -38,6 +38,16 @@
             }
         }
         return d
+    };
+    $.fn.removeTags = function () {
+        this.each(function () {
+            if ($(this).children().length == 0) {
+                $(this).replaceWith($(this).text())
+            } else {
+                $(this).children().unwrap()
+            }
+        });
+        return this
     };
     $.fn.replaceTag = function (f, e) {
         $this = this;
@@ -334,9 +344,12 @@
                 "Font Family": "",
                 "Font Size": "<input type='text' id='p_font_size' value='' class='prop-spinner'> pixels",
                 Text: "<input type='text' id='p_text' value=''>",
+                "Text Alignment": "<div class='switch'>																					<input type='radio' value='left' name='p_alignment' id='radio1' /><label for='radio1' title='left'><span class='icon icon-fontawesome-webfont-51'></span></label>																					<input type='radio' value='center' name='p_alignment' id='radio2' /><label for='radio2' title='center'><span class='icon icon-fontawesome-webfont-52'></span></label>																					<input type='radio' value='right' name='p_alignment' id='radio3' /><label for='radio3' title='right'><span class='icon icon-fontawesome-webfont-65'></span></label>																					<input type='radio' value='justify' name='p_alignment' id='radio4' /><label for='radio4' title='justify'><span class='icon icon-fontawesome-webfont-53'></span></label>																				</div>",
                 "Sub Text": "<input type='text' id='p_sub_text' value=''>",
+                "Text Content": "<textarea id='p_text_content'></textarea>																				<p>Allows: b, strong, i, em, u, br, blockquote, a</p>",
                 Label: "<input type='text' id='p_text_label' value=''>",
-                "Defualt Value": "<input type='text' id='p_defual_value' value=''>",
+                "Submit Text": "<input type='text' id='p_submit_text' value=''>",
+                "Reset Text": "<input type='text' id='p_reset_text' value=''>",
                 Placeholder: "<input type='text' id='p_placeholder' value=''>",
                 "Short Description": "<input type='text' id='p_short_description' value=''>",
                 "Input Mask": "<input type='text' id='p_input_mask' value=''>						  													<p>Use the following symbol to mask:</p>						  													<p>~ = + or -</p>						  													<p>@ = Alphabet</p>						  													<p># = Numeric</p>						  													<p>* = Alphanumeric</p>",
@@ -348,7 +361,7 @@
                 Validation: "<ul>										  										<li><label><input type='radio' class='p_validation' name='validation' value='none'><span>None</span></label></li>																					<li><label><input type='radio' class='p_validation' name='validation' value='email'><span>Email</span></label></li>																					<li><label><input type='radio' class='p_validation' name='validation' value='numeric'><span>Numeric</span></label></li>																					<li><label><input type='radio' class='p_validation' name='validation' value='alphabet'><span>Alphabet</span></label></li>																					<li><label><input type='radio' class='p_validation' name='validation' value='alphanum'><span>AlphaNumeric</span></label></li>																				</ul>",
                 Offset: "<div id='p_submit_offset'></div><div class='p_submit_offset_value'>Value : <span>0px</span></div>",
                 "Submit Alignment": "<ul>																			  	 <li><label><input type='radio' class='p_submit_alignment' name='alignment' value='right'><span>Right</span></label></li>																			  	 <li><label><input type='radio' class='p_submit_alignment' name='alignment' value='left'><span>Left</span></label></li>																			  	 <li><label><input type='radio' class='p_submit_alignment' name='alignment' value='center'><span>Center</span></label></li>																		    </ul>",
-                "Show Button": "<ul>																			  	 <li><label><input type='checkbox' class='p_show_button' name='reset' value='reset'><span>Reset</span></label></li>																				   <!--li><label><input type='checkbox' class='p_show_button' name='print' value='print'><span>Print</span></label></li-->																		    </ul>",
+                "Show Reset Button": "<ul>																						  	 <li><label><input type='checkbox' class='p_show_reset' name='reset' value='reset'><span>Reset</span></label></li>																					    </ul>",
                 "Label Width": "<input type='text' id='p_label_width' value='' class='prop-spinner'>",
                 "Allow Multiple Upload": "<input type='checkbox' id='p_multiple_file' value=''>",
                 "File Extentions": "<textarea id='p_file_extensions'>jpg, jpeg, png, gif, pdf, doc, docx, xls, csv, txt, html, zip, mp3, mpg, flv, avi</textarea>",
@@ -784,21 +797,39 @@
                 var f = e._form();
                 f.find("input[type='text']").attr("class", "validation[" + h + "]")
             });
+            d.on("click", 'input[name="p_alignment"]', function (g) {
+                var f = e._form();
+                f.find(".wrap").css("text-align", this.value);
+                a(".prop-value").find("#p_text_content").css("text-align", this.value)
+            });
             d.on("keyup keydown", "#p_text", function (h) {
                 var g = e._form();
                 var f = a.trim(this.value);
                 (a.trim(a(this).val()) !== "") ? a(".ui-tabs-nav a:eq(0)").text(a.trim(a(this).val())) : a(".ui-tabs-nav a:eq(0)").html("&nbsp;");
                 g.find(":header").text(f)
             });
+            d.on("keyup keydown", "#p_text_content", function (h) {
+                var g = e._form();
+                var j = a("<div />").append(a(this).val());
+                j.find(":not(b, strong, i, em, u, br, blockquote, a)").removeTags();
+                var f = a.trim(j.html());
+                (a.trim(a(this).val()) !== "") ? a(".ui-tabs-nav a:eq(0)").text(a.trim(a(this).val())) : a(".ui-tabs-nav a:eq(0)").html("&nbsp;");
+                g.find("p").remove();
+                var i = "";
+                a.each(f.split("\n"), function () {
+                    i += "<p>" + this + "</p>"
+                });
+                a(".wrap", g).append(i)
+            });
             d.on("keyup keydown", "#p_sub_text", function (g) {
                 var h = a.trim(a(this).val());
                 var f = e._form();
                 f.find(".sub-text").remove();
-                f.append("<div class='sub-text'>" + h + "</div>")
+                f.find(".wrap").append("<div class='sub-text'>" + h + "</div>")
             });
             d.on("change", "#p_fonts", function (g) {
                 var f = e._form();
-                f.find(":header").css("font-family", a(this).val())
+                f.find(":header, p").css("font-family", a(this).val())
             });
             d.on("keyup keydown", "#p_text_label", function (h) {
                 var g = e._form();
@@ -821,7 +852,12 @@
                 var f = e._form();
                 f.not(".shrink, .top-align").find(".label").css("width", a(this).val())
             });
-            d.on("keyup keydown", "#p_defual_value", function (g) {
+            d.on("keyup keydown", "#p_reset_text", function (g) {
+                var f = e._form();
+                var h = a.trim(this.value);
+                f.find("input[type='reset']").attr("value", h)
+            });
+            d.on("keyup keydown", "#p_submit_text", function (g) {
                 var f = e._form();
                 var h = a.trim(this.value);
                 f.find("input[type='submit']").attr("value", h)
@@ -833,19 +869,16 @@
                 f.find(".f_submit_wrap").css("text-align", a(this).val());
                 a(".p_submit_offset_value span").text("0px")
             });
-            d.on("click", ".p_show_button", function (g) {
-                var f = e._form();
-                var h = this.value;
-                f.find(".f_submit_wrap span").css("margin-left", "");
+            d.on("click", ".p_show_reset", function (h) {
+                var g = e._form();
+                var i = this.value;
+                g.find(".f_submit_wrap span").css("margin-left", "");
                 a("#p_submit_offset").slider("option", "value", 0);
                 if (a(this).is(":checked")) {
-                    if (h == "reset") {
-                        f.find('input[type="submit"]').before('<input type="reset" value="Clear Form">')
-                    } else {
-                        f.find(".f_submit_wrap span").prepend('<input type="button" value="Print">')
-                    }
+                    var f = a.trim(a("#p_reset_text").val());
+                    g.find('input[type="submit"]').before('<input type="reset" value="' + (f == "" ? "Clear Form" : f) + '">')
                 } else {
-                    (h == "reset") ? f.find('input[type="reset"]').remove() : f.find('input[type="button"]').remove()
+                    g.find('input[type="reset"]').remove()
                 }
                 a(".p_submit_offset_value span").text("0px")
             });
@@ -914,7 +947,8 @@
                                             e.options_column(h)
                                         } else {
                                             if (g.target.id == "p_font_size") {
-                                                f.find(":header").css("font-size", h + "px")
+                                                f.find(":header").css("font-size", h + "px");
+                                                f.find("p").css("font-size", h + "px")
                                             }
                                         }
                                     }
@@ -1136,7 +1170,7 @@
                     a(".ui-tabs-anchor").blur()
                 }
             });
-            (d.find(".label").text() !== "") ? a(".ui-tabs-nav a:eq(0)").text(d.find(".label").text()) : a(".ui-tabs-nav a:eq(0)").text(d.find(":header").text());
+            (d.find(".label").text() !== "") ? a(".ui-tabs-nav a:eq(0)").text(d.find(".label").text()) : a(".ui-tabs-nav a:eq(0)").text(d.find(":header").text() || d.find("p").html());
             if (d.hasClass("f_submit")) {
                 a(".ui-tabs-nav a:eq(0)").text("Submit Button")
             }
@@ -1218,7 +1252,18 @@
                 a("#p_text").val(a.trim(d.find(":header").text()));
                 a("#p_font_size").val(d.find(":header").css("font-size").replace("px", ""));
                 a("#p_fonts").val(d.find(":header").css("font-family"));
-                a("#p_sub_text").val(d.find(".sub-text").text())
+                a("#p_sub_text").val(d.find(".sub-text").text());
+                a("input[name='p_alignment'][value='" + d.find(".wrap").css("text-align") + "']").attr("checked", "checked")
+            }
+            if (d.hasClass("f_letter")) {
+                var k = "";
+                a.each(d.find("p"), function () {
+                    k += a(this).html() + "\n"
+                });
+                a("#p_text_content").val(k);
+                a("#p_font_size").val(d.find("p").css("font-size").replace("px", ""));
+                a("#p_fonts").val(d.find("p").css("font-family"));
+                a("input[name='p_alignment'][value='" + d.find(".wrap").css("text-align") + "']").attr("checked", "checked")
             }
             if (d.hasClass("f_text")) {
                 a(".p_validation[value='" + d.find('input[type="text"]').attr("class").split("[")[1].split("]")[0] + "']").attr("checked", "checked")
@@ -1261,11 +1306,11 @@
             if (d.hasClass("f_switch")) {
                 var e = d.find(".switch input:first").val();
                 var h = d.find(".switch input:last").val();
-                var k = d.find(".switch .ui-button-text:first").text();
+                var l = d.find(".switch .ui-button-text:first").text();
                 var j = d.find(".switch .ui-button-text:last").text();
                 a(".switch_key.option_1").val(e);
                 a(".switch_key.option_2").val(h);
-                a(".switch_text.option_1").val(k);
+                a(".switch_text.option_1").val(l);
                 a(".switch_text.option_2").val(j)
             }
             if (d.hasClass("f_file")) {
@@ -1279,31 +1324,30 @@
                 }
             }
             if (d.hasClass("f_submit")) {
-                a("#p_defual_value").val(d.find("input[type='submit']").val());
+                a("#p_submit_text").val(d.find("input[type='submit']").val());
+                a("#p_reset_text").val(d.find("input[type='reset']").val());
                 a(".p_submit_offset_value span").text(d.find(".f_submit_wrap span").css("margin-left")), a(".p_submit_alignment[value='" + d.find(".f_submit_wrap").css("text-align") + "']").attr("checked", "checked");
                 if (d.find("input[type='reset']").size() > 0) {
-                    a(".p_show_button[name='reset']").attr("checked", "checked")
-                }
-                if (d.find("input[type='button']").size() > 0) {
-                    a(".p_show_button[name='print']").attr("checked", "checked")
+                    a(".p_show_reset[name='reset']").attr("checked", "checked")
                 }
                 a("#p_submit_offset").slider({
                     range: "max",
                     min: 0,
                     value: d.find(".f_submit_wrap span").css("margin-left").replace("px", ""),
                     max: d.width() - d.find(".f_submit_wrap span").width(),
-                    start: function (m, n) {
-                        var l = d.find(".f_submit_wrap span").width();
+                    start: function (n, o) {
+                        var m = d.find(".f_submit_wrap span").width();
                         d.find(".f_submit_wrap").css("text-align", "");
                         a(".p_submit_alignment").removeAttr("checked");
-                        a(this).slider("option", "max", d.width() - l)
+                        a(this).slider("option", "max", d.width() - m)
                     },
-                    slide: function (l, m) {
-                        a(".p_submit_offset_value span").text(m.value + "px");
-                        d.find(".f_submit_wrap span").css("margin-left", m.value - 1)
+                    slide: function (m, n) {
+                        a(".p_submit_offset_value span").text(n.value + "px");
+                        d.find(".f_submit_wrap span").css("margin-left", n.value - 1)
                     }
                 })
             }
+            a(".prop-value .switch").buttonset()
         },
         code: function () {
             var j = this;
@@ -1453,7 +1497,7 @@
                     a(i).find(".ui-draggable").removeAttr("style").removeAttr("data-name");
                     a(i).find(".ui-resizable-handle").remove();
                     a.each(e, function () {
-                        if (!a(this).hasClass("f_submit") && !a(this).hasClass("f_heading")) {
+                        if (!a(this).hasClass("f_submit") && !a(this).hasClass("f_heading") && !a(this).hasClass("f_letter")) {
                             var o = a(this).attr("data-name");
                             var q = this.className.match(/(\bf_)\S*/g);
                             var n = a(".label", this).text().replace("*", "");
@@ -1782,7 +1826,7 @@
         font_property: function () {
             var e = this._form();
             var d = "<select name='' id='p_fonts'>";
-            var c = e.find(":header").css("font-family");
+            var c = e.find(":header, p").css("font-family");
             a.each(a.guiform.Fonts, function (f, g) {
                 if (c.split(",")[0].replace(/['", ]/g, "") == g.split(",")[0].replace(/['", ]/g, "")) {
                     d += "<option style='font-family: " + g + ";' data-value='" + g + "'>" + f + "</option>"
@@ -1817,40 +1861,44 @@
             } else {
                 a("#tab-li-group").hide()
             } if (d.hasClass("f_heading")) {
-                c = ["Text", "Sub Text", "Font Family", "Font Size"]
+                c = ["Text", "Sub Text", "Text Alignment", "Font Family", "Font Size"]
             } else {
-                if (d.hasClass("f_text")) {
-                    c = ["Label", "Input Mask", "Label Width", "Placeholder", "Short Description", "Validation", "Width", "Maximum Input"]
+                if (d.hasClass("f_letter")) {
+                    c = ["Text Content", "Width", "Text Alignment", "Font Family", "Font Size"]
                 } else {
-                    if (d.hasClass("f_textarea")) {
-                        c = ["Label", "Label Width", "Placeholder", "Short Description", "Height", "Width"]
+                    if (d.hasClass("f_text")) {
+                        c = ["Label", "Input Mask", "Label Width", "Placeholder", "Short Description", "Validation", "Width", "Maximum Input"]
                     } else {
-                        if (d.hasClass("f_select")) {
-                            c = ["Label", "Label Width", "Short Description", "Width"]
+                        if (d.hasClass("f_textarea")) {
+                            c = ["Label", "Label Width", "Placeholder", "Short Description", "Height", "Width"]
                         } else {
-                            if (d.hasClass("f_radio") || d.hasClass("f_checkbox")) {
-                                c = ["Label", "Label Width", "Option Columns", "Option Columns", "Width"]
+                            if (d.hasClass("f_select")) {
+                                c = ["Label", "Label Width", "Short Description", "Width"]
                             } else {
-                                if (d.hasClass("f_submit")) {
-                                    c = ["Defualt Value", "Submit Alignment", "Show Button", "Offset"]
+                                if (d.hasClass("f_radio") || d.hasClass("f_checkbox")) {
+                                    c = ["Label", "Label Width", "Option Columns", "Option Columns", "Width"]
                                 } else {
-                                    if (d.hasClass("f_file")) {
-                                        c = ["Label", "Label Width", "Placeholder", "Short Description", "Width", "Allow Multiple Upload", "File Extentions", "Max File Size"]
+                                    if (d.hasClass("f_submit")) {
+                                        c = ["Submit Text", "Reset Text", "Submit Alignment", "Show Reset Button", "Offset"]
                                     } else {
-                                        if (d.hasClass("f_password")) {
-                                            c = ["Label", "Label Width", "Short Description", "Width"]
+                                        if (d.hasClass("f_file")) {
+                                            c = ["Label", "Label Width", "Placeholder", "Short Description", "Width", "Allow Multiple Upload", "File Extentions", "Max File Size"]
                                         } else {
-                                            if (d.hasClass("f_phone")) {
-                                                c = ["Label", "Input Mask", "Label Width", "Short Description", "Width"]
+                                            if (d.hasClass("f_password")) {
+                                                c = ["Label", "Label Width", "Short Description", "Width"]
                                             } else {
-                                                if (d.hasClass("f_email")) {
-                                                    c = ["Label", "Label Width", "Placeholder", "Short Description", "Width", "Maximum Input"]
+                                                if (d.hasClass("f_phone")) {
+                                                    c = ["Label", "Input Mask", "Label Width", "Short Description", "Width"]
                                                 } else {
-                                                    if (d.hasClass("f_spinner")) {
-                                                        c = ["Label", "Label Width", "Short Description", "Maximum Value", "Minimum Value", "Width"]
+                                                    if (d.hasClass("f_email")) {
+                                                        c = ["Label", "Label Width", "Placeholder", "Short Description", "Width", "Maximum Input"]
                                                     } else {
-                                                        if (d.hasClass("f_switch")) {
-                                                            c = ["Label", "Label Width", "Short Description", "Width", "Option 1", "Option 2"]
+                                                        if (d.hasClass("f_spinner")) {
+                                                            c = ["Label", "Label Width", "Short Description", "Maximum Value", "Minimum Value", "Width"]
+                                                        } else {
+                                                            if (d.hasClass("f_switch")) {
+                                                                c = ["Label", "Label Width", "Short Description", "Width", "Option 1", "Option 2"]
+                                                            }
                                                         }
                                                     }
                                                 }
@@ -2167,6 +2215,7 @@
             form: {
                 "Form Tools": {
                     t_heading: ["Heading", "<strong>H</strong>"],
+                    t_letter: ["Text", "icon-fontawesome-webfont-140"],
                     t_text: ["Text Box", "icon-fontawesome-webfont-89"],
                     t_textarea: ["Text Area", "icon-fontawesome-webfont-80"],
                     t_select: ["Drop Down", "icon-fontawesome-webfont-100"],
@@ -2185,7 +2234,8 @@
             }
         },
         Form: {
-            heading: ["<h1>Heading</h1>"],
+            heading: ["<div class='wrap'><h1>Heading</h1></div>"],
+            letter: ['<div class="wrap"><p>"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p></div>'],
             text: ["<label class='label'>Text Box</label><div class='wrap' style='width: 210px;'><input type='text' class='validation[none]'></div>", "VARCHAR(150) NOT NULL"],
             textarea: ["<label class='label'>Text Area</label><div class='wrap' style='width: 210px;'><textarea></textarea></div>", "TEXT NOT NULL"],
             select: ["<label class='label'>Drop Down</label>																			<div class='wrap' style='width: 210px;'>																				<select name=''>																					<option value='Option 1'>Option 1</option>																					<option value='Option 2'>Option 2</option>																					<option value='Option 3'>Option 3</option>																				</select>																			</div>", "VARCHAR(150) NOT NULL"],
