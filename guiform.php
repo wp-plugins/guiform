@@ -807,18 +807,6 @@ class GuiForm extends GuiForm_API{
 		
 	  if(array_key_exists($this->permalink['value'], $wp->query_vars) || in_array($this->permalink['value'], $wp->query_vars)) {
 	  	
-	  	if(array_key_exists($this->permalink['value'], $wp->query_vars)){
-	  		$query = explode('/', esc_sql($wp->query_vars[$this->permalink['value']]));
-	  		$name = $query[0];
-	  		$id = $guif->int($query);
-	  		$this->id = $id;		
-	  	}
-	  	else if(in_array($this->permalink['value'], $wp->query_vars)){	  	
-			  $name = $wp->query_vars['name'];		
-				$id = $guif->int($wp->query_vars['page']);	
-				$this->id = $id;		
-	  	}
-	  	
 	  	if(isset($_POST['submit'])){
 	  		global $guif;
 	  	  //echo "<pre>";
@@ -826,6 +814,19 @@ class GuiForm extends GuiForm_API{
   	  	//echo "For older browsers.";
 				die();
 			}
+			
+			$query = explode('/', esc_sql($wp->query_vars[$this->permalink['value']]));
+	  		
+  		if($query[0] == "js"){
+  			$name = $query[0];
+  			$id = $query[1];
+  		}
+  		else{
+  			$name = $this->permalink['value'];
+  			$id = $wp->query_vars[$this->permalink['value']];
+  		}
+  		
+  		$this->id = $id;	
 	  	
 	  	$preview = esc_sql($_GET["view"]);
 	  	
