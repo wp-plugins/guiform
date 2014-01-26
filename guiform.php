@@ -30,7 +30,7 @@ Version: 1.3.1
  * 
  * @since 1.3.1
  */
-//ob_get_clean();
+ob_get_clean();
 
 /**
  * Plugin absolute file path.
