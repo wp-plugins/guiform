@@ -804,6 +804,8 @@ class GuiForm extends GuiForm_API{
 		
 		global $wpdb, $guif;
 		
+		$this->flush_rewrite();
+		
 		
 	  if(array_key_exists($this->permalink['value'], $wp->query_vars) || in_array($this->permalink['value'], $wp->query_vars)) {
 	  	
