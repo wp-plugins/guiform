@@ -1,5 +1,6 @@
 <?php
 
+
 class Ajax{  
   
   /**
@@ -91,12 +92,18 @@ class Ajax{
 	 * @access public
 	 */
   function __construct(){
+  	
   	$this->action = esc_sql($_POST['action']);
   	$this->x_action = esc_sql($_SERVER['HTTP_X_ACTION']);
   	$this->id = esc_sql($_POST['id']);
   	$this->action();
   	$this->x_action();
   	
+  	
+		if(isset($_POST['export'])){
+			add_action('admin_init', array($this, 'export_csv'));
+		}
+		
   	if($this->action == 'save-entries'){
   		add_action( 'wp_ajax_nopriv_guiform_save-entries', array(&$this, 'save_entries'));
   	}
@@ -166,7 +173,13 @@ class Ajax{
 	        break; 
 	   case 'download':
 	        $this->download();
-	        break;   
+	        break;
+	   case 'export-get-fields':
+	        $this->export_get_fields();
+	        break;    
+	   case 'export-data':
+	        $this->export_data();
+	        break;  
 		}
   }
   
@@ -202,15 +215,16 @@ class Ajax{
   	global $wpdb, $guif;
   	
   	$form = esc_sql($_POST['form']);
+  	$unique = esc_sql($_POST['unique']);
   	$this->id = $form;
   	$fields = array();
   	$data_files = array();
   	$data_files_index = 0;
   	$table = $wpdb->guiform_form;
   	
-  	
   	unset($_POST['form']);
   	unset($_POST['action']);
+  	unset($_POST['unique']);
   	unset($_POST['data']['submit']);
   	unset($_POST['data']['reset']);
   	
@@ -221,11 +235,10 @@ class Ajax{
   		$guif_fields = $guif->guiform($form, 'data');
   		$num = 0;
   		
-  		
   		foreach($guif_fields as $key => $value){
   			
   			$this->field = $value['name'];
-  			$this->value = $_POST['data'][$this->field];
+  			$this->value = trim($_POST['data'][$this->field]);
   			$this->item = $key;
   			$required = filter_var($value['validation']['required'], FILTER_VALIDATE_BOOLEAN);
   			
@@ -238,8 +251,8 @@ class Ajax{
   				}
   			}
   			
-  			
   			if($value['name'] == $POST[$num] || !isset($POST[$num])){
+  				
 					if(($required && empty($this->value)) || ($required && !isset($_POST['data'][$this->field]))){
 						$this->error[$this->item] = __('This field is required.', 'guiform');
 					}
@@ -281,12 +294,15 @@ class Ajax{
 					}
 					
 					$fields[$this->field] = (is_array($this->value)) ? serialize($this->value) : esc_sql($this->value);
-					$num++;
+					
+					
 				}
 				else{
 					die(json_encode(array('status' => 'error', 'message' => __('Failure saving your entry, please refresh the page and try it again.', 'guiform'))));
 					die();
 				}
+				
+				$num++;
   		}
   	}
   	
@@ -348,6 +364,9 @@ class Ajax{
 							}
 							
 							$response[$type]['message'] = str_replace("{{$key}}", $fields[$key], $response[$type]['message']);	
+							$response[$type]['subject'] = str_replace("{{$key}}", $fields[$key], $response[$type]['subject']);	
+							$response[$type]['sender']  = str_replace("{{$key}}", $fields[$key], $response[$type]['sender']);
+							$response[$type]['mailto']  = str_replace("{{$key}}", $fields[$key], $response[$type]['mailto']);
 						}
 						
 						if($type == 'notification'){
@@ -363,6 +382,88 @@ class Ajax{
 		}
   }
   
+  /**
+	 * Get all form fields.
+	 *
+	 * @since 1.3.1
+	 * @access private
+	 */
+	private function export_get_fields(){
+		global $wpdb;
+
+  	$fields = $wpdb->get_results($wpdb->prepare("SHOW COLUMNS FROM $wpdb->guiform_form%d", $this->id), OBJECT_K);
+  	$html = "<ul>";
+  	$x = 0;
+  	if(sizeof($fields) > 0){
+  		foreach($fields as $row){
+				$html .= "<li><label for='field-$x'><input id='field-$x' type='checkbox' checked='checked' value='$row->Field' name='field[]'> $row->Field </label>";
+			
+				$x++;
+  		}
+  	}
+  	
+  	echo $html;
+  	
+		die();
+	}
+	
+	/**
+	 * Export entries to csv file.
+	 *
+	 * @since 1.3.1
+	 * @access private
+	 */
+	public function export_csv(){
+		global $wpdb;
+		
+		$args = array();
+		$args['fields'] = array_map( 'esc_html',  $_POST['field'] );
+		unset($_POST['submit']);
+		unset($_POST['field']);
+		
+		$POST = array_map( 'esc_html',  $_POST );		
+		$args['date-from'] = $POST['from'];
+		$args['date-to'] = $POST['to'];
+		$args['format'] = $POST['format'];
+		$args['form'] = $POST['form'];
+		$table = $wpdb->guiform_form.$args['form'];
+
+		$filename = date("Y-m-d") ."-". $POST['name'];
+		$filename = strtolower(str_replace(" ", "-", $filename));
+		$fields = implode(", ", $args['fields']);
+		$content_type = 'text/csv';
+		$where = ($args['date-from'] || $args['date-to']) ? " WHERE " : "";
+		
+		if($args['date-from']){
+			$where .= $wpdb->prepare( "guif_date_submitted >= %s", date( 'Y-m-d', strtotime( $args['date-from'] ) ) );
+		}
+		
+		if($args['date-to']){
+			$and = ($args['date-from']) ? " AND " : "";
+			$where .= $wpdb->prepare( " $and guif_date_submitted < %s", date( 'Y-m-d', strtotime( $args['date-to'] ) ) );
+		}
+		
+		$data = $wpdb->get_results( "SELECT $fields FROM $table $where ORDER BY id ASC", ARRAY_A );
+		
+		header( 'Cache-Control: must-revalidate, post-check=0, pre-check=0' );
+		header( 'Content-Description: File Transfer' );
+		header( 'Content-Disposition: attachment; filename=' . $filename );
+		header( "Content-Type: $content_type; charset=" . get_option( 'blog_charset' ), true );
+		header( 'Expires: 0' );
+		header( 'Pragma: public' );
+		
+		$csv = @fopen( 'php://output', 'w' );
+		fputcsv( $csv, $args['fields'], "," );
+		
+		foreach($data as $row){
+			fputcsv( $csv, $row, "," );
+		}
+		
+		fclose( $csv );
+		
+		die();
+	}
+	
   /**
 	 * Validate text entry.
 	 *

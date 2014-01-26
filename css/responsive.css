@@ -25,7 +25,7 @@
 }
 
 
-@media all and (min-width: 261px) and (max-width: 400px){
+@media all and (min-width: 261px) and (max-width: 500px){
 	
 	#GuiForm textarea,
 	#GuiForm #canvas,
@@ -39,6 +39,7 @@
 	
 	#GuiForm li.floatLine{
 		width: 50% !important;
+		display: inline-block !important;
 	}
 	
 	#GuiForm li.f_radio.floatLine,
@@ -51,9 +52,14 @@
 		width: 100% !important;
 	}
 	
-	#GuiForm .blockLine,
-	#GuiForm .blockLine .wrap,
 	#GuiForm li.floatLine .wrap{
+		width: 100% !important;
+	}
+}
+
+
+@media all and (min-width: 261px) and (max-width: 300px){
+	#GuiForm li.blockLine .wrap{
 		width: 100% !important;
 	}
 }

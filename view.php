@@ -50,7 +50,15 @@ $ajax_url = plugins_url('guiform/ajax.php');
 
 add_action('wp_footer', array(&$this, 'footer_script'), 10, 2);
 
+header("Expires: Tue, 01 Jan 2000 00:00:00 GMT");
+header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
 header("Accept-Language: en-us");
+
+//OS for devices.
+$devices = array('iPhone', 'iPad', 'iPod', 'Android', 'BlackBerry', 'Mobile', 'Firefox OS', 'Windows Phone');
 
 ?>
 
@@ -59,13 +67,19 @@ header("Accept-Language: en-us");
 <head>
 <title><?php echo $form->title; ?></title>
 <meta http-equiv="Content-Type" content="text/html;" />
+
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="HandheldFriendly" content="true">
 
 <link rel="stylesheet"  href="<?php echo plugins_url('guiform/library/jquery-ui/css/custom-theme/jquery-ui-1.9.2.custom.min.css'); ?>" type="text/css" media="all" />			
 <link rel="stylesheet"  href="<?php echo plugins_url('guiform/css/guiform.css'); ?>" type="text/css" media="all" />
+
+<?php if(in_array($guif->os, $devices)): ?>
+
 <link rel="stylesheet"  href="<?php echo plugins_url('guiform/css/responsive.css'); ?>" type="text/css" media="all" />
+
+<?php endif; ?>
 </head>
 <body id="GuiForm" <?php echo (isset($_GET['preview'])) ? " style='padding-top: 35px;'" : ''; ?>>
 	

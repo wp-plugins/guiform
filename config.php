@@ -5,7 +5,7 @@
 	*
 	* @since 1.0
 	*/
-define('GUIFORM_VERSION', '1.3');
+define('GUIFORM_VERSION', '1.3.1');
 
 /**
 	* Setup global table prefix names.

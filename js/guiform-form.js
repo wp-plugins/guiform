@@ -497,6 +497,7 @@ var xhrFiles = {};
             if (window.File && window.FileList) {
                 var g = {
                     action: "save-entries",
+                    unique: c.attr("id").split("_")[1],
                     form: guif.form_id,
                     files: xhrFiles,
                     data: a(e).serializeForm()

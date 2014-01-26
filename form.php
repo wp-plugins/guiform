@@ -1,7 +1,7 @@
 <?php
 
 	$id = absint(trim($query[1]));
-	$html = $wpdb->get_results($wpdb->prepare("SELECT html FROM $wpdb->guiform WHERE id = %d", 2));
+	$row = $wpdb->get_row($wpdb->prepare("SELECT html FROM $wpdb->guiform WHERE id = %d", $id ));
 	$rand = rand(10e16, 10e20);
 	$frameID = base_convert($rand, 10, 36);
 	$preview = $this->permalink() ."$id?type=plain";
@@ -79,7 +79,7 @@ function GuiForm(){
 	
 	this.buidFrame = function(){
 		this.Id = 'GuiForm-'+Math.floor(Math.random() * 90000);
-    var htmlCode = "<i"+"frame id=\""+this.Id+"\" onload=\"window.parent.scrollTo(0,0)\" allowtransparency=\"true\" frameborder=\"0\" style=\"width:100%; height: auto; border:none;\" scrolling=\"no\"></i"+"frame>";
+    var htmlCode = "<i"+"frame id=\""+this.Id+"\" onload=\"window.parent.scrollTo(0,0)\" allowtransparency=\"true\" frameborder=\"0\" style=\"display: inline; width:100%; height: auto; border:none;\" scrolling=\"no\"></i"+"frame>";
 		document.write(htmlCode);
 		this.iframe = document.getElementById(this.Id);
 		this.iframe.style.height = 'auto';

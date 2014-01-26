@@ -3,7 +3,7 @@ Options All -Indexes
 
 
 # Disallow access
-<Files .htaccess|class|library|images|css|js|fonts>
+<Files .htaccess>
 order allow,deny
 deny from all
 </Files>
@@ -42,5 +42,5 @@ ExpiresDefault "access plus 7 days"
 RewriteEngine On
 RewriteCond %{HTTP_REFERER} !^http://(www\.)?([a-z0-9-_.]) [NC] 
 RewriteCond %{HTTP_REFERER} !^http://(www\.)?([a-z0-9-_.]).*$ [NC] 
-RewriteRule guiform|ajax|api|config|uninstall\.(php)$ - [F]
+RewriteRule ajax|api|config|uninstall\.(php)$ - [F]
 </IfModule>

@@ -82,6 +82,7 @@ class Form_List_Table extends WP_List_Table {
 		if ( !$action_count )
 			return '';
 
+
 		$out = '<div class="' . ( $always_visible ? 'row-actions-visible' : 'row-actions' ) . '">';
 		foreach ( $actions as $action => $link ) {
 			++$i;
@@ -109,10 +110,13 @@ class Form_List_Table extends WP_List_Table {
 	 */
 	public function get_sortable_columns() {
 		return $sortable = array(
-			'id'=> array('id', false ),
-			'form_title'=> array('title', true),
+			'id'         => array('id', false ),
+			'form_title' => array('title', true),
 			'last_update'=> array('last_update', false),
-			'created'=> array('created', false )
+			'new'        => array('new', true),
+			'unread'     => array('unread', true),
+			'total'      => array('total', true),
+			'created'    => array('created', false )
 		);
 	}
 	
@@ -141,12 +145,33 @@ class Form_List_Table extends WP_List_Table {
 	 */
 	function get_columns() {
 		return $columns = array(
-			'cb' 			       => "<input type='checkbox' />",
-			'id'             =>__('Form ID'),
-			'form_title'     =>__('Form Title'),
-			'last_update'    =>__('Last Update'),
-			'created'        =>__('Date Created')
+			'cb' 			    => "<input type='checkbox' />",
+			'id'          => __('ID#'),
+			'form_title'  => __('Form Title'),
+			'new'         => __('Today'),
+			'unread'      => __('Unread'),
+			'total'       => __('Total'),
+			'last_update' => __('Last Update'),
+			'created'     => __('Date Created')
 		);
+	}
+	
+	function column_total( $item ){
+		global $wpdb;
+		$size = $wpdb->get_var("SELECT COUNT(id) FROM $wpdb->guiform_form$item->id");
+		return "<div>$size</div>";
+	}
+	
+	function column_new( $item ){
+		global $wpdb;
+		$size = $wpdb->get_var("SELECT COUNT(id) FROM $wpdb->guiform_form$item->id WHERE guif_date_submitted >= curdate()");
+		return "<div style='font-weight: bold;'>$size</div>";
+	}
+	
+	function column_unread( $item ){
+		global $wpdb;
+		$size = $wpdb->get_var("SELECT COUNT(id) FROM $wpdb->guiform_form$item->id WHERE guif_read = 0");
+		return "<div style='font-weight: bold;'>$size</div>";
 	}
 	
 	function column_cb( $item ){
@@ -169,7 +194,7 @@ class Form_List_Table extends WP_List_Table {
 	            'trash'     => sprintf('<a class="delete-form" id="form-%d" href="javascript:void(0)">Trash</a>', $item->id)
 	            );
 	  	
-	  $title = "<a style='display: block;' href='admin.php?page=query/form-builder.php&form=$item->id'>$item->title</a>";
+	  $title = "<a style='display: block;' href='admin.php?page=guiform/form-builder&form=$item->id'>$item->title</a>";
 	  return sprintf('%1$s %2$s', $title, $this->row_actions($actions) );
 	}
 	

@@ -70,6 +70,7 @@ class Settings_Page{
 		global $guif;
 		
 		if(isset($_POST['submit'])){
+			
 			$autosave = esc_html($_POST['autosave']);
 			$autosave_time = esc_html(intval($_POST['autosave_time']));
 			$skin = esc_html($_POST['skin']);
@@ -124,6 +125,8 @@ class Settings_Page{
 				$permalink['value']     =  'form';
 				$guif->update_option(0, 'permalink', $permalink);
 			}
+			
+			
 			
 			echo '<div class="updated"><p><strong>Update settings succesful.</strong></p></div>';
 		}

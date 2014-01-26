@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: form, forms, form builder, contact form builder, responsive form, contact form, contact forms, form creator, form to email, email form, email, input, validation, jquery, shortcode, form manager
 Requires at least: 3.5
 Tested up to: 3.8
-Stable tag: 1.3
+Stable tag: 1.3.1
 License: GPLv2 or later
 
 Build your responsive, beautiful and reusable forms and no coding required with this awesome form builder plug-in.
@@ -35,6 +35,7 @@ Awesome form builder with lots of features like what you see is what you get use
 * Merge Fields - Combine multiple fields.
 * Resizable form width.
 * Color Scheme - Change form builder color settings (Wordpress 3.8 or higher only).
+* Export entry
 
 
 = Field Types =
@@ -134,3 +135,12 @@ Awesome form builder with lots of features like what you see is what you get use
 * Fix widget area shortcode not showing
 * Fix custom link not saving
 * Remove the 0 bug after sending a test email
+
+
+**Version 1.3.1 - Jan 27, 2014**
+
+* Add export entry page
+* Add field variable for sending email
+* Fix form preview 404 error
+* Fix shortcode bug
+* Fix edit link in form manager

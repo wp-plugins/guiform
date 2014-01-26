@@ -5,7 +5,7 @@ Plugin URI: https://www.guiform.com
 Description: Awesome form builder with lots of features like <strong>wysiwyg user interface, display form in other website, no conflict with themes css and much more</strong>.
 Author: Russell C. Pabon
 Author URI: http://russellpabon.com
-Version: 1.3
+Version: 1.3.1
 */
 
 /*  Copyright 2013-2014 Russell C. Pabon (email: russellpabon@guiform.com)
@@ -25,6 +25,12 @@ Version: 1.3
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+/**
+ * Remove unwanted error or display of message from other plugins.
+ * 
+ * @since 1.3.1
+ */
+//ob_get_clean();
 
 /**
  * Plugin absolute file path.
@@ -38,7 +44,6 @@ require_once(GUIFORM_ABSPATH .'config.php');
 
 // Load API class
 require_once(GUIFORM_ABSPATH .'api.php');
-
 
 // Main Class
 class GuiForm extends GuiForm_API{
@@ -73,6 +78,7 @@ class GuiForm extends GuiForm_API{
 		
 		global $pagenow;
 		$this->id = (isset($_GET['form'])) ? esc_sql($_GET['form']) : "";
+		
 		$this->actions();
 		$this->filter();
 		
@@ -89,8 +95,8 @@ class GuiForm extends GuiForm_API{
 	 * @access private
 	 */
 	private function actions(){
+		add_action('admin_init', array($this, 'flush_rewrite'));
 		add_shortcode('GuiForm', array(&$this, 'form_ouput'));
-		add_filter('widget_text', 'do_shortcode');
 		add_action('generate_rewrite_rules', array(&$this, 'rewrite_rules'));
 		add_action('parse_request', array($this, 'action_parse_request'));
 		add_action('admin_menu', array(&$this, 'menu'));
@@ -98,6 +104,21 @@ class GuiForm extends GuiForm_API{
 		add_action('activate_guiform/guiform.php', array(&$this, 'create_table'));
 		add_action('media_buttons', array($this, 'add_media_button'), 777);
 		add_action("wp_ajax_guiform_media_button", array($this, "ajax_media_button"));
+	}
+	
+	/**
+	 * Remove rewrite rules and then recreate rewrite rules.
+	 *
+	 * @see WP_Rewrite::flush_rules()
+	 * @since 1.3.1
+	 *
+	 * Whether to update .htaccess (hard flush) or just update.
+	 */
+	public function flush_rewrite(){
+		$rules = get_option('rewrite_rules');
+		if(!array_key_exists($this->permalink['value'] ."/(.+)", $rules)){
+			flush_rewrite_rules();
+		}
 	}
 	
 
@@ -110,6 +131,18 @@ class GuiForm extends GuiForm_API{
 	public function rewrite_rules($wp_rewrite){
 	  $new_rules = array($this->permalink['value'] ."/(.+)" => "index.php?". $this->permalink['value'] ."=". $wp_rewrite->preg_index(1));	
 	  $wp_rewrite->rules = $new_rules + $wp_rewrite->rules;
+	}
+	
+	/**
+	 * filter slugs.
+	 *
+	 * @since 1.0
+	 * @access public
+	 * @return $query_vars array
+	 */
+	public function filter_query_vars($query_vars){
+	  $query_vars[] = $this->permalink['value'];
+	  return $query_vars;
 	}
 	
 	/**
@@ -171,10 +204,9 @@ class GuiForm extends GuiForm_API{
 	 * @access private
 	 */ 
 	private function filter(){
-		
+		add_filter('widget_text', 'do_shortcode');
 		add_filter('query_vars', array(&$this, 'filter_query_vars'));
 		add_filter('plugin_action_links',  array(&$this, 'action_links'), 10, 2);
-		
 	}
 	
 	/**
@@ -187,11 +219,12 @@ class GuiForm extends GuiForm_API{
 		
 		global $pages_options;
 		
-		$pages_options['form'] = add_object_page(__('GuiForm', 'guiform'), __('GuiForm', 'guiform'), 'manage_guiform', 'guiform', array(&$this, 'page_list_table' ), plugins_url('guiform/images/guiform-icon.png'));
-		$pages_options['forms'] = add_submenu_page('guiform', __('GuiForm', 'guiform'), __('Manage Forms', 'guiform'), 'manage_guiform', 'guiform', array(&$this, 'page_list_table'));
-		$pages_options['entries'] = add_submenu_page('guiform', __('Manage Entries', 'guiform_entries'), __('Manage Entries', 'guiform_entries'), 'manage_guiform', 'guiform_entries', array(&$this, 'page_list_table'));
+		$pages_options['form']         = add_object_page(__('GuiForm', 'guiform'), __('GuiForm', 'guiform'), 'manage_guiform', 'guiform', array(&$this, 'page_list_table' ), plugins_url('guiform/images/guiform-icon.png'));
+		$pages_options['forms']        = add_submenu_page('guiform', __('GuiForm', 'guiform'), __('Manage Forms', 'guiform'), 'manage_guiform', 'guiform', array(&$this, 'page_list_table'));
+		$pages_options['entries']      = add_submenu_page('guiform', __('Manage Entries', 'guiform_entries'), __('Manage Entries', 'guiform_entries'), 'manage_guiform', 'guiform_entries', array(&$this, 'page_list_table'));
 		$pages_options['form-builder'] = add_submenu_page('guiform', __('Form Builder', 'guiform/form-builder'), __('Form Builder', 'guiform/form-builder'), 'manage_guiform', 'guiform/form-builder', array(&$this, 'page_list_table'));
-		$pages_options['settings'] = add_submenu_page('guiform', __('Settings', 'guiform/settings'), __('Settings', 'guiform/settings'), 'manage_guiform', 'guiform/settings',  array(&$this, 'page_list_table'));
+		$pages_options['export']       = add_submenu_page('guiform', __('Export', 'guiform/export'), __('Export', 'guiform/export'), 'manage_guiform', 'guiform/export', array(&$this, 'page_list_table'));
+		$pages_options['settings']     = add_submenu_page('guiform', __('Settings', 'guiform/settings'), __('Settings', 'guiform/settings'), 'manage_guiform', 'guiform/settings',  array(&$this, 'page_list_table'));
 
 	  $class_list = array('forms', 'entries', 'settings', 'form-builder');
 	  foreach($class_list as $class){
@@ -202,6 +235,7 @@ class GuiForm extends GuiForm_API{
 			// Load Screen Options
 			add_action('load-'. $pages_options[$class], array(&$this, 'class_list_table'));
 	  }
+	  
 	  
 	}
 	
@@ -471,6 +505,16 @@ class GuiForm extends GuiForm_API{
 				'plugins_url' => plugins_url('guiform/')
 			));
 		}
+		else if($hook_suffix == "guiform_page_guiform/export"){
+			wp_enqueue_script('jquery-ui-core');
+			wp_enqueue_script('jquery-ui-widget');
+			wp_enqueue_script('jquery-ui-datepicker');
+			wp_enqueue_script('guiform-script', plugins_url('guiform/js/script.js'), array('jquery'), GUIFORM_VERSION, true);
+			wp_enqueue_style('guiform-settings', plugins_url('guiform/css/settings.css'), false, GUIFORM_VERSION, 'all');
+			wp_enqueue_style('jquery-ui-theme', plugins_url('guiform/library/jquery-ui/css/custom-theme/jquery-ui-1.9.2.custom.min.css'), false, GUIFORM_VERSION, 'all');
+			
+		}
+		
 	}
 	
 	/**
@@ -526,6 +570,11 @@ class GuiForm extends GuiForm_API{
 		
 		if($screen->id == 'guiform_page_guiform/settings'){
 			$settings->build();
+		}
+		
+		
+		if($screen->id == 'guiform_page_guiform/export'){
+			require_once(GUIFORM_ABSPATH .'class/export.php');
 		}
 		
 		return $_wp_admin_css_colors;
@@ -589,11 +638,10 @@ class GuiForm extends GuiForm_API{
 	 * @since 1.0
 	 * @access public
 	 */
-	public function form_ouput($atts){
+	public function form_ouput( $atts, $output = '' ){
 		global $guif;
 		$id = $atts['id'];
-		
-		$guif->form($id);
+		return $guif->form($id);
 	}
 	
 	/**
@@ -754,22 +802,34 @@ class GuiForm extends GuiForm_API{
 	 */
 	public function action_parse_request(&$wp){
 		
-		global $wpdb;
+		global $wpdb, $guif;
 		
-	  if(array_key_exists($this->permalink['value'], $wp->query_vars)) {
-	  	$query = explode('/', esc_sql($wp->query_vars[$this->permalink['value']]));
-	  	$id = explode('?', $query[0]);
-	  	$this->id = $id[0];
+		
+	  if(array_key_exists($this->permalink['value'], $wp->query_vars) || in_array($this->permalink['value'], $wp->query_vars)) {
+	  	
+	  	if(array_key_exists($this->permalink['value'], $wp->query_vars)){
+	  		$query = explode('/', esc_sql($wp->query_vars[$this->permalink['value']]));
+	  		$name = $query[0];
+	  		$id = $guif->int($query);
+	  		$this->id = $id;		
+	  	}
+	  	else if(in_array($this->permalink['value'], $wp->query_vars)){	  	
+			  $name = $wp->query_vars['name'];		
+				$id = $guif->int($wp->query_vars['page']);	
+				$this->id = $id;		
+	  	}
 	  	
 	  	if(isset($_POST['submit'])){
 	  		global $guif;
+	  	  //echo "<pre>";
+	  		//print_r($_POST);
   	  	//echo "For older browsers.";
 				die();
 			}
 	  	
 	  	$preview = esc_sql($_GET["view"]);
 	  	
-  		if($query[0] == 'js'){
+  		if($name == 'js'){
   			
 		    if(isset($_SERVER['HTTP_ORIGIN'])){
 		        header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
@@ -826,18 +886,6 @@ class GuiForm extends GuiForm_API{
 		  'form_id' => $this->id
 		));
 				
-	}
-	
-	/**
-	 * filter slugs.
-	 *
-	 * @since 1.0
-	 * @access public
-	 * @return $query_vars array
-	 */
-	public function filter_query_vars($query_vars){
-	  $query_vars[] = $this->permalink['value'];
-	  return $query_vars;
 	}
 	
 	/**

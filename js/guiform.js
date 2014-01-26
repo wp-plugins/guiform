@@ -149,18 +149,33 @@
         return this.length > 0 ? this : false
     };
     $.guiform = {
-        emails: function (a, c) {
-            c = c || "";
+        emails: function (b, d) {
+            d = d || "";
             if ($(guiBuilder.emails).size() > 0) {
-                var b = '<select name="' + a + '" class="' + c + '">';
+                var e = $(".f_email").map(function (f) {
+                    var g = [
+                        [$("input", this).attr("name"), $("label", this).text()]
+                    ];
+                    return g
+                }).get();
+                var a = $(".f_text input[class='validation[email]']").map(function (f) {
+                    var g = [
+                        [$(this).attr("name"), $(this).parents(".item").find("label").text()]
+                    ];
+                    return g
+                }).get();
+                var c = '<select name="' + b + '" class="' + d + '">';
                 $.each(guiBuilder.emails, function () {
-                    b += '<option value="' + this.name + '">' + this.name + "</option>"
+                    c += '<option value="{' + this.name + '}">' + this.name + "</option>"
                 });
-                b += "</select>"
+                $.each($.merge(e, a), function () {
+                    c += '<option value="{' + this[0] + '}">' + this[1] + "</option>"
+                });
+                c += "</select>"
             } else {
-                b = '<a href="' + guiBuilder.admin_url + '">Click here to add email address.</a>'
+                c = '<a href="' + guiBuilder.admin_url + '">Click here to add email address.</a>'
             }
-            return b
+            return c
         },
         dataType: function () {
             var a = '<select name="p_data_type" class="p_data_type">';
@@ -208,6 +223,7 @@
             "Gill Sans": '"Gill Sans"',
             "Goudy Old Style": '"Goudy Old Style"',
             "Helvetica Neue": '"Helvetica Neue"',
+            Helvetica: "Helvetica",
             "Hoefler Text": '"Hoefler Text"',
             Impact: "Impact",
             "Lucida Bright": '"Lucida Bright"',
@@ -215,12 +231,14 @@
             "Lucida Grande": '"Lucida Grande"',
             "Lucida Sans Typewriter": '"Lucida Sans Typewriter"',
             Monaco: "Monaco",
+            "Open Sans": '"Open Sans"',
             Optima: "Optima",
             Palatino: "Palatino",
             Papyrus: "Papyrus",
             Perpetua: "Perpetua",
             Rockwell: "Rockwell",
             "Rockwell Extra Bold": '"Rockwell Extra Bold"',
+            "sans-serif": "sans-serif",
             "Segoe UI": '"Segoe UI"',
             Tahoma: "Tahoma",
             "Times New Roman": "times new roman",
@@ -344,6 +362,7 @@
                 "Font Family": "",
                 "Font Size": "<input type='text' id='p_font_size' value='' class='prop-spinner'> pixels",
                 Text: "<input type='text' id='p_text' value=''>",
+                "Line Height": "<input type='text' id='p_line_height' value='' class='prop-spinner'> pixels",
                 "Text Alignment": "<div class='switch'>																					<input type='radio' value='left' name='p_alignment' id='radio1' /><label for='radio1' title='left'><span class='icon icon-fontawesome-webfont-51'></span></label>																					<input type='radio' value='center' name='p_alignment' id='radio2' /><label for='radio2' title='center'><span class='icon icon-fontawesome-webfont-52'></span></label>																					<input type='radio' value='right' name='p_alignment' id='radio3' /><label for='radio3' title='right'><span class='icon icon-fontawesome-webfont-65'></span></label>																					<input type='radio' value='justify' name='p_alignment' id='radio4' /><label for='radio4' title='justify'><span class='icon icon-fontawesome-webfont-53'></span></label>																				</div>",
                 "Sub Text": "<input type='text' id='p_sub_text' value=''>",
                 "Text Content": "<textarea id='p_text_content'></textarea>																				<p>Allows: b, strong, i, em, u, br, blockquote, a</p>",
@@ -799,8 +818,7 @@
             });
             d.on("click", 'input[name="p_alignment"]', function (g) {
                 var f = e._form();
-                f.find(".wrap").css("text-align", this.value);
-                a(".prop-value").find("#p_text_content").css("text-align", this.value)
+                f.find(".wrap").css("text-align", this.value)
             });
             d.on("keyup keydown", "#p_text", function (h) {
                 var g = e._form();
@@ -949,6 +967,10 @@
                                             if (g.target.id == "p_font_size") {
                                                 f.find(":header").css("font-size", h + "px");
                                                 f.find("p").css("font-size", h + "px")
+                                            } else {
+                                                if (g.target.id == "p_line_height") {
+                                                    f.find("p").css("line-height", h + "px")
+                                                }
                                             }
                                         }
                                     }
@@ -1262,6 +1284,7 @@
                 });
                 a("#p_text_content").val(k);
                 a("#p_font_size").val(d.find("p").css("font-size").replace("px", ""));
+                a("#p_line_height").val(d.find("p").css("line-height").replace("px", ""));
                 a("#p_fonts").val(d.find("p").css("font-family"));
                 a("input[name='p_alignment'][value='" + d.find(".wrap").css("text-align") + "']").attr("checked", "checked")
             }
@@ -1864,7 +1887,7 @@
                 c = ["Text", "Sub Text", "Text Alignment", "Font Family", "Font Size"]
             } else {
                 if (d.hasClass("f_letter")) {
-                    c = ["Text Content", "Width", "Text Alignment", "Font Family", "Font Size"]
+                    c = ["Text Content", "Width", "Text Alignment", "Font Family", "Font Size", "Line Height"]
                 } else {
                     if (d.hasClass("f_text")) {
                         c = ["Label", "Input Mask", "Label Width", "Placeholder", "Short Description", "Validation", "Width", "Maximum Input"]
@@ -2102,15 +2125,17 @@
                     a("#tab-notification").html(i);
                     (d.init.notification.notify == true) ? a('#tab-notification input[name="notify"]').attr("checked", "checked") : a('#tab-notification input[name="notify"]').removeAttr("checked");
                     a('#tab-notification select[name="sender"]').val(d.init.notification.sender);
-                    var f = a(".ui-sortable .ui-draggable:not(.ui-sortable .merge):not(.ui-sortable .f_submit), .ui-sortable .merge-item");
+                    var f = a(".ui-sortable .ui-draggable:not(.ui-sortable .merge), .ui-sortable .merge-item");
                     var e = "";
                     var g = "<table id='field-list' width='350' cellpadding='5' cellspacing='5'>";
                     var h = "</table>";
                     var l = "";
                     f.each(function () {
-                        var n = a.trim(a(this).find(".label").text().replace(/\*/gi, ""));
-                        e += "<li data-name='{" + a(this).attr("data-name") + "}'>" + n + "</li>";
-                        l += "<tr><td width='130'>" + n + "</td><td>{" + a(this).attr("data-name") + "}</td></tr>"
+                        if (!a(this).hasClass("f_heading") && !a(this).hasClass("f_letter") && !a(this).hasClass("f_submit")) {
+                            var n = a.trim(a(this).find(".label").text().replace(/\*/gi, ""));
+                            e += "<li data-name='{" + a(this).attr("data-name") + "}'>" + n + "</li>";
+                            l += "<tr><td width='130'>" + n + "</td><td>{" + a(this).attr("data-name") + "}</td></tr>"
+                        }
                     });
                     if (d.init.notification.message == "") {
                         var m = g + l + h;
@@ -2119,8 +2144,6 @@
                         var j = a("<div />").html(d.init.notification.message);
                         j.find("#field-list").html(l);
                         a("#tinymce-notification").val(j.html())
-                    } if (f.size() > 0) {
-                        e += "<li><hr /></li>"
                     }
                     e += '<li data-name="{entry_id}" title="Submission ID" style="-moz-user-select: none; cursor: default;">Submission ID</li>					<li data-name="{form_id}" title="Form ID">Form ID</li>					<li data-name="{form_title}" title="Form Title">Form Title</li>					<li data-name="{ip_address}" title="IP Address">IP Address</li>';
                     a(".variable-fields").html(e).css("max-height", a(".variable-fields").parent().parent().height());

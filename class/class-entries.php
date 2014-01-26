@@ -141,7 +141,7 @@ class Entries_List_Table extends WP_List_Table {
  	public function extra_tablenav( $which ) {
 		if ( $which == "top" ){
 			global $wpdb;
-			//$wpdb = new wpdb('root', '', 'wordpress-3-5-2', 'localhost');
+			
 			$cols = $wpdb->get_results( "SELECT id, title FROM $wpdb->guiform ORDER BY id ASC" );
 	
 			if ( 'top' == $which ) {

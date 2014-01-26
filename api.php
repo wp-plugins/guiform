@@ -180,6 +180,17 @@ class GuiForm_API{
 	}
 	
 	/**
+	 * Convert string to integer.
+	 *
+	 * @since 1.3.1
+	 * @access public
+	 * @return integer
+	 */
+	public function int($s){
+		return(int)preg_replace('/[^\-\d]*(\-?\d*).*/', '$1', $s);
+	}
+	
+	/**
 	 * Check operating system.
 	 *
 	 * @since 1.0
@@ -213,7 +224,7 @@ class GuiForm_API{
         '/android/i'            => 'Android',
         '/blackberry/i'         => 'BlackBerry',
         '/webos/i'              => 'Mobile',
-        '/gecko\/18.0/i'        => 'Firefox OS',
+        '/gecko\/18.0/i'        => 'Firefox OS'
     );
 
     foreach($os_array as $regex => $value){ 
@@ -511,8 +522,8 @@ class GuiForm_API{
 		$url = $this->permalink();
 		$url = $url.'js/'.$id;
 		
-		if(count($wpdb->get_row("SELECT id FROM $wpdb->guiform WHERE id = $id", ARRAY_N)) > 0){
-  		echo "<script type='text/javascript' src='$url'></script>";
+		if(count($wpdb->get_row($wpdb->prepare("SELECT id FROM $wpdb->guiform WHERE id = %d", $id), ARRAY_N)) > 0){
+  		return "<script type='text/javascript' src='$url'></script>";
   	}
 	}
 	
@@ -679,7 +690,7 @@ class GuiForm_API{
 			$phpmailer->SetFrom($init['sender']);
 		}
 		else if($type == 'test-mail'){
-			$data = $wpdb->get_row("SELECT * FROM $wpdb->guiform_options WHERE id = $id");
+			$data = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->guiform_options WHERE id = %d", $id));
 		  $row = unserialize($data->value);
 			$AddAddress = $data->name;
 			$subject = __('GuiForm - Test Mail', 'guiform');
@@ -690,7 +701,7 @@ class GuiForm_API{
 			$data = unserialize($data->value);
 		}
 		else if($type == 'activation-mail'){
-			$data = $wpdb->get_row("SELECT * FROM $wpdb->guiform_options WHERE id = $id");
+			$data = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->guiform_options WHERE id = %d", $id));
 		  $row = unserialize($data->value);
 			$mv_code = md5(time());
 			$row['key'] = $mv_code;
