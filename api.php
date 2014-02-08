@@ -2,7 +2,7 @@
 
 // API Class		
 class GuiForm_API{
-	
+
 	public $skin = 'green';
 	
 	/**
@@ -129,13 +129,13 @@ class GuiForm_API{
 	 * @access public
 	 */
 	private function _init(){
-		global $_wp_admin_css_colors;
-		
 		$this->request_time  = esc_html($_SERVER['REQUEST_TIME']);
 		$this->user_agent    = esc_html($_SERVER["HTTP_USER_AGENT"]);
 		$this->permalink     = $this->get_option(0, 'permalink');
 		$this->ip            = $this->_ip();
 		$this->os            = $this->_os();
+		$this->mobile        = $this->_mobile();
+		$this->desktop       = $this->_desktop();
 		$this->browser       = $this->_browser();
 		$this->upload_folder = $this->_upload_folder();
 		$this->temp_folder   = $this->_temp_folder();
@@ -235,6 +235,52 @@ class GuiForm_API{
     }   
 
     return $os;
+	}
+	
+	/**
+	 * List of desktop operating system.
+	 *
+	 * @since 1.4.1
+	 * @access private
+	 * @return array
+	 */
+	private function _desktop(){
+    return array ('Unknown OS',
+							    'Windows 8',
+							    'Windows 7',
+							    'Windows Vista',
+							    'Windows Server 2003/XP x64',
+							    'Windows XP',
+							    'Windows 2000',
+							    'Windows ME',
+							    'Windows 98',
+							    'Windows 95',
+							    'Windows 3.11',
+							    'Mac OS X',
+							    'Mac OS 9',
+							    'Linux',
+							    'Ubuntu'
+							    );
+	}
+	
+	/**
+	 * List of moble device operating system.
+	 *
+	 * @since 1.4.1
+	 * @access private
+	 * @return array
+	 */
+	private function _mobile(){
+    return array('Unknown OS',
+								 'Windows Phone',
+								 'iPhone',
+								 'iPod',
+								 'iPad',
+							   'Android',
+								 'BlackBerry',
+								 'Mobile',
+								 'Firefox OS'
+								 );
 	}
 	
 	/**
@@ -514,35 +560,17 @@ class GuiForm_API{
 	}
 	
 	/**
-	 * Display form.
-	 *
-	 * @since 1.0
-	 * @access public
-	 */
-	public function form($id){
-		global $wpdb;
-		$url = $this->permalink();
-		$url = $url.'js/'.$id;
-		
-		if(count($wpdb->get_row($wpdb->prepare("SELECT id FROM $wpdb->guiform WHERE id = %d", $id), ARRAY_N)) > 0){
-  		return "<script type='text/javascript' src='$url'></script>";
-  	}
-	}
-	
-	/**
 	 * Get the URL of the form.
 	 *
 	 * @since 1.0
 	 * @access public
 	 * @return $link string
 	 */
-	public function permalink(){
-		if(get_option('permalink_structure')){
-  		$link = get_site_url() ."/". $this->permalink['value'] ."/";
-  	}
-  	else{
-  		$link = get_site_url() ."/?". $this->permalink['value'] ."=";
-  	}
+	public function permalink($param1 = "", $param2 = ""){
+		if(get_option('permalink_structure'))
+  		$link = get_site_url() ."/". $this->permalink['value'] ."/".$param1.$param2;
+  	else
+  		$link = get_site_url() ."/?". $this->permalink['value'] ."=".$param1.$param2;
   	return $link;
 	}
 	
@@ -629,7 +657,6 @@ class GuiForm_API{
     return $string;
 	}
 	
-	
 	/**
 	 * Check user IP address.
 	 *
@@ -712,7 +739,7 @@ class GuiForm_API{
 			$subject = __("GuiForm - Email Verification", 'guiform');
 			$AddAddress = $data->name;
 			$data->name = "noreply@guiform.com";
-			$vlink = $this->permalink()."$id&mv-code=$mv_code";
+			$vlink = $this->permalink($id, "&mv-code=$mv_code");
 			
 			$html = "Hello ".$row['name'].",<br /><br />
 							To enable this email address from sending emails with your forms we must first verify by clicking the link below: <br /><br />
@@ -755,6 +782,7 @@ class GuiForm_API{
 	 */
 	public function init_loop($post){
   	$data = array();
+  	
   	foreach($post as $key => $value){
   		if(is_array($value)){
   			$data[$key] = $this->init_loop($value);
@@ -767,7 +795,7 @@ class GuiForm_API{
   			$data[$key] = $value;
   		}
   	}
-  	
+	  
   	return $data;
 	}
 	
@@ -789,6 +817,5 @@ class GuiForm_API{
 			$phpmailer->Password = $data['smtp_password'];
 		}
 		
-	} 
-	
+	}
 }

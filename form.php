@@ -1,20 +1,31 @@
 <?php
-
-	$id = absint(trim($query[1]));
+	$id = $atts['id'];
 	$row = $wpdb->get_row($wpdb->prepare("SELECT html FROM $wpdb->guiform WHERE id = %d", $id ));
 	$rand = rand(10e16, 10e20);
 	$frameID = base_convert($rand, 10, 36);
-	$preview = $this->permalink() ."$id?type=plain";
-	$content = file_get_contents($preview);
+	$preview = $this->permalink($id);
+	
+	ob_start();
+	include "view.php";
+	$view = ob_get_contents();
+	ob_end_clean();
+	
+	$content = $view;
 	$content = str_replace('"', '\\"', $content);
 	$content = str_replace('/', '\/', $content);
 	//$content = trim(preg_replace('/\s\s+/', ' ', $content));
 	$content = preg_replace("/[\\n\\r]+/", "", $content);
 	$content = str_replace('> <', '><', $content);
 	$content = "$content";
-		
-?>
+	
+if(!isset($atts['js'])){
+	echo "<script type='text/javascript'>";
+}
+else{
+	header("Content-Type:text/plain");
+}
 
+?>
 /*!
  * GuiForm Plugin
  * https://www.guiform.com
@@ -88,7 +99,7 @@ function GuiForm(){
 	
 	this.buidFrame = function(){
 		this.Id = 'GuiForm-'+Math.floor(Math.random() * 90000);
-    var htmlCode = "<i"+"frame id=\""+this.Id+"\" onload=\"window.parent.scrollTo(0,0)\" allowtransparency=\"true\" frameborder=\"0\" style=\"display: inline; height: auto; width: auto; border:none;\" scrolling=\"no\"></i"+"frame>";
+    var htmlCode = "<i"+"frame id=\""+this.Id+"\" src=\"<?php echo $preview; ?>\" onload=\"window.parent.scrollTo(0,0)\" allowtransparency=\"true\" frameborder=\"0\" style=\"display: inline; height: auto; width: auto; border:none;\" scrolling=\"no\"></i"+"frame>";
 		document.write(htmlCode);
 		this.iframe = document.getElementById(this.Id);
 		this.iframe.style.height = 'auto';
@@ -97,10 +108,12 @@ function GuiForm(){
 	
 	this.addFrameContent = function(){
 		var frame = this.iframe;
+		<?php if(isset($_GET['view'])): ?>
 		var doc = frame.contentDocument ? frame.contentDocument : (frame.contentWindow.document || frame.document);
 		doc.open();
 		doc.write("<?php echo $content; ?>");
 		doc.close();
+		<?php endif; ?>
 		this.setTimer();
 	}
 	
@@ -108,3 +121,7 @@ function GuiForm(){
 }
 
 var guiform = new GuiForm();
+
+<?php if(!isset($atts['js'])): ?>
+	</script>
+<?php endif; ?>

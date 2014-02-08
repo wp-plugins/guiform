@@ -1,12 +1,3 @@
-# disable directory browsing
-Options All -Indexes
-
-
-# Disallow access
-<Files .htaccess>
-order allow,deny
-deny from all
-</Files>
 
 # compress text, HTML, JavaScript, CSS, and XML
 <IfModule mod_deflate.c>

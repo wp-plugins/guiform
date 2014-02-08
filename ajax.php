@@ -21,15 +21,6 @@ class GuiForm_Ajax{
   private $action;
   
   /**
-	 * Server request type.
-	 *
-	 * @since 1.0
-	 * @var string
-	 * @access private
-	 */ 
-  private $x_action;
-  
-  /**
 	 * Form list name.
 	 *
 	 * @since 1.0
@@ -95,15 +86,12 @@ class GuiForm_Ajax{
   }
 
   public static function getInstance(){
-
-      $cls = get_called_class(); // late-static-bound class name
-      if (!isset(self::$instances[$cls])) {
-          self::$instances[$cls] = new $cls;
-      }
-      
-      return self::$instances[$cls];
+    $cls = get_called_class(); // late-static-bound class name
+    if (!isset(self::$instances[$cls])) {
+        self::$instances[$cls] = new $cls;
+    }
+    return self::$instances[$cls];
   }
-  
   
   /**
 	 * Constructor.
@@ -375,11 +363,15 @@ class GuiForm_Ajax{
 					$this->esc[] = '%s';
 				}
 				else if($value['type'] == 'f_spinner'){
-					$this->value = esc_html($this->value);
+					$this->value = esc_sql($this->value);
 					$this->esc[] = '%d';
 				}
-				else{
+				else if($value['type'] == 'f_textarea'){
 					$this->value = esc_html($this->value);
+					$this->esc[] = '%s';
+				}
+				else{
+					$this->value = esc_sql($this->value);
 					$this->esc[] = '%s';
 				}
 				
@@ -608,7 +600,7 @@ class GuiForm_Ajax{
 		
 		header( 'Cache-Control: must-revalidate, post-check=0, pre-check=0' );
 		header( 'Content-Description: File Transfer' );
-		header( 'Content-Disposition: attachment; filename=' . $filename );
+		header( 'Content-Disposition: attachment; filename=' . $filename .'.csv' );
 		header( "Content-Type: $content_type; charset=" . get_option( 'blog_charset' ), true );
 		header( 'Expires: 0' );
 		header( 'Pragma: public' );
@@ -622,7 +614,7 @@ class GuiForm_Ajax{
 		
 		fclose( $csv );
 		
-		die();
+		exit();
 	}
 	
   /**
@@ -755,7 +747,6 @@ class GuiForm_Ajax{
 	 */
   private function mail_quick_edit(){
   	global $wpdb;
-  	
   	
   	if($this->action == 'mail-quick-edit'){
 	  	$item     = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpdb->guiform_options WHERE id = %d", $this->id));
@@ -1230,6 +1221,7 @@ class GuiForm_Ajax{
   	echo "<tr class='inline-edit-row inline-edit-row-post inline-edit-post quick-edit-row quick-edit-row-post inline-edit-post alternate'><td>
 	  	<!--input type='text' value='$entry_field'-->
 	  	<form id='quick-update'>
+	  	  <input type='submit' value='submit' name='submit' style='display:none;' disabled='disabled'>
 	  		<input type='hidden' value='$this->id' name='form-id'>
 		  	<fieldset class='inline-edit-col-left'>
 					<h4>Quick Edit $form->title</h4>
@@ -1247,6 +1239,7 @@ class GuiForm_Ajax{
 					<span style='display:none' class='error'></span>
 					<br class='clear'>
 				</p></td>
+				
 			</form>
 		</tr>";
 		die();
@@ -1283,7 +1276,5 @@ class GuiForm_Ajax{
 			die(json_encode(array('status' => 'success', 'id' => $this->id, 'message' => "<span>Update Successful.</span>")));
 		}
   }
-  
-}  
-
+} 
 ?>
