@@ -1,0 +1,236 @@
+*{
+outline: medium none !important;	
+}
+
+.access-denied{
+border-bottom: 1px solid #E65E5E;
+border-top: 1px double #E65E5E;
+color: #E65E5E;
+margin-top: 5%;
+padding: 20px 0;
+text-align: center;
+text-shadow: 2px 3px 0 #E65E5E;
+text-transform: uppercase;
+width: 99%;	
+}
+
+#manage-form,
+#manage-entries{
+margin-top: 20px;
+width: 99%;
+}
+
+#manage-entries tr.unread{
+font-weight: bold;
+}
+
+.metabox-prefs label[for="guif_ip-hide"],
+.metabox-prefs label[for="id-hide"]{
+display: none;
+}
+
+#status_icon{
+width: 50px;
+text-align: center;
+}
+
+#status_icon .status-icon{
+background: url("../images/icon-status.png") no-repeat scroll -58px 0 transparent;
+display: inline-block;
+height: 21px;
+width: 21px;
+}
+
+#created, #last_update{
+width: 200px;
+}
+
+#id, #new, #total, #unread{
+width: 10%;
+}
+
+#search_id-search-input{
+width: 300px;
+}
+
+.row-actions{
+margin: 5px 0px;
+}
+
+#form-list{
+width: 250px;
+max-width: none;
+}
+
+.inline-edit-row fieldset label span.title{
+width: 100px;
+}
+
+.inline-edit-row .input-text-wrap input[type="text"] {
+width: 90%;
+}
+
+#guiform-metaboxes-details .inside,
+#guiform-metaboxes-entry .inside{
+margin: 0;
+padding: 0;
+}
+
+#major-publishing-actions #delete-action a{
+color: red;
+}
+
+#major-publishing-actions #delete-action:hover{
+background-color: red;
+}
+
+#major-publishing-actions #delete-action:hover a{
+color: #FFFFFF;
+text-decoration: none;
+}
+
+/*-Meta Boxes----------------------------------------*/
+
+#guiform.metabox-holder #container-1{
+clear: both;
+display: block;
+width: 100%;
+}
+
+#guiform.metabox-holder #container-2{
+margin-right: 1.5%;
+width: 70%;
+}
+
+#guiform.metabox-holder #container-3{
+width: 28.5%;
+}
+  
+#guiform.metabox-holder .meta-box-sortables{
+/*	min-height: 67px; */
+}
+
+#guiform.metabox-holder.columns-1 .postbox-container{
+clear: both;
+display: block;
+width: 100% !important;
+}
+
+#guiform-metaboxes-header .inside li{
+border-right: 1px solid #BBBBBB;
+cursor: pointer;
+display: inline-block;
+margin-bottom: 0;
+margin-right: 15px;
+padding-right: 15px;
+}
+
+
+#container-3 #guiform-metaboxes-header li{
+margin-bottom: 15px;
+}
+
+#guiform-metaboxes-header .inside li:last-child{
+border-right: none;
+}
+
+#guiform-metaboxes-header .inside a{
+text-decoration: none;
+}
+
+#guiform-metaboxes-header .inside .icon{
+color: #464646;
+font-size: 22px;
+position: relative;
+}
+
+#guiform-metaboxes-header .inside .icon:hover,
+#guiform-metaboxes-header .inside .icon:hover span{
+color: #E34848 !important;
+}
+
+#guiform-metaboxes-header .inside span{
+color: #21759B;
+font-size: 12px;
+font-weight: bold;
+position: absolute;
+right: 0;
+top: 5px;
+}
+
+#guiform-metaboxes-entry table{
+width: 100%;
+display: table;
+border: medium none;
+}
+
+#guiform-metaboxes-entry tr:last-child td{
+border: none;
+}
+
+#guiform-metaboxes-entry ul,
+#guiform-metaboxes-entry li{
+margin: 0;
+}
+
+#guiform-metaboxes-entry li{
+line-height: 25px;
+padding: 0 5px;
+}
+
+#guiform-metaboxes-entry li:last-child{
+margin: 0;
+}
+
+#guiform-metaboxes-entry li:hover{
+background-color: #CCCCCC;
+}
+
+#guiform-metaboxes-entry li a{
+display: block;
+}
+
+#guiform-metaboxes-entry li .size{
+float: right;
+}
+
+#guiform-metaboxes-entry .label td{
+font-weight: bold;
+padding: 7px 7px 7px 20px;
+background-color: #F7F7F7;
+}
+
+#guiform-metaboxes-entry .value td{
+padding: 7px 7px 7px 40px;
+background-color: #FFFFFF ;
+}
+
+#guif-view-entry{
+position: relative;
+}
+
+#guif-view-entry .button-wrap{
+text-align: right;
+}
+
+#guif-view-entry .guif-size{
+font-size: 14px;
+position: absolute;
+right: 110px;
+top: 7px;
+}
+
+#guif-view-entry .guif-size strong{
+color: #E34848;
+}
+
+#guif-view-entry .button-wrap a span{
+font-size: 22px;
+height: auto;
+line-height: inherit;
+padding: 2px 10px;	
+}
+
+#guif-view-entry .button-wrap a span:hover{
+color: #E34848;
+}
