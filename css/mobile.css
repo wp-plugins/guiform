@@ -1,0 +1,40 @@
+@media all (min-width: 200px) and (max-width: 360px){
+	#GuiForm textarea,
+	#GuiForm input[type="text"],
+	#GuiForm input[type="password"],
+	#GuiForm input[type="file"],
+	#GuiForm select{
+	font-size: 20px !important;
+	padding: 5px !important;
+	}
+	
+	#GuiForm .label{
+	font-size: 20px !important;
+	}
+	
+	#GuiForm #canvas input[type="submit"],
+	#GuiForm #canvas input[type="reset"]{
+	background-color: #505050;
+	background-image: linear-gradient(to bottom, #606060, #505050);
+	border-color: #21759B #21759B #1E6A8D;
+	border: 1px solid #444444;
+	border-radius: 0;
+	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset, 0 1px 2px rgba(0, 0, 0, 0.29);
+	color: #FFFFFF;
+	cursor: pointer;
+	font-size: 20px;
+	padding: 10px 15px;
+	text-shadow: 0 1px 0 #000000;
+	}
+	
+	#GuiForm #canvas input[type="reset"]{
+	background-color: #505050;
+	background-image: linear-gradient(to bottom, #606060, #505050);
+	border-color: #21759B #21759B #1E6A8D;
+	}
+	
+	#canvas .wrap span.ui-button-text {
+	font-size: 20px;
+	padding: 5px 15px;
+	}
+}
