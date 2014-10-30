@@ -1,0 +1,1410 @@
+form *{
+outline: 0 none;
+padding: 0px;
+margin: 0px;
+letter-spacing: 1px;
+font-family: inherit;
+}
+
+#canvas,
+#canvas *,
+#canvas *:before,
+#canvas *:after{
+-moz-box-sizing: border-box !important; 
+-webkit-box-sizing: border-box !important; 
+box-sizing: border-box !important;
+}
+
+input::-moz-focus-inner { border:0; padding:0 }
+
+.clearfix:after{ 
+content: "\00A0"; 
+display: block; 
+clear: both; 
+visibility: hidden; 
+line-height: 0; 
+height: 0;
+width:0;
+font-size: 0px;
+}
+
+.clearfix{ 
+display: inline-block;
+}
+
+html[xmlns] .clearfix { 
+display: block;
+}
+
+* html .clearfix{ 
+height: 1%;
+}
+
+.clearfix {
+display: block;
+zoom: 1; 
+}
+
+#guiform-loader{
+text-align: center;
+}
+
+form[name="guiform"]{
+/*display: none;*/
+}
+
+/*------------------------ Start Jquery UI ----------------------------------------*/
+
+.ui-spinner.ui-widget{
+height: auto !important;
+}
+
+.ui-buttonset .ui-button {
+margin-right: 0;
+float: left;
+}
+
+.ui-buttonset.button,
+.ui-buttonset.button:hover{
+background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+border: medium none;
+box-shadow: none;
+display: block;
+ padding: 0px;
+}
+
+.ui-slider.ui-widget{
+display: block;
+margin: 10px 0 5px;
+}
+
+.ui-datepicker {
+padding: 1px;
+width: 250px;
+z-index: 2 !important;
+}
+
+.ui-datepicker table {
+margin: 0;
+}
+
+.ui-datepicker-multi{
+width: auto !important;
+}
+
+.ui-datepicker-multi .ui-datepicker-group table {
+width: 100%;
+}
+
+.ui-datepicker .ui-datepicker-header,
+.ui-datepicker .ui-timepicker-div .ui-widget-header{
+background: none repeat scroll 0 0 #EC6A38;
+border-radius: 5px 5px 0 0;
+color: #FFFFFF;
+padding: 6px 0;
+position: relative;
+ height: auto;
+}
+
+.ui-datepicker .ui-datepicker-title {
+font-size: 14px;
+font-weight: 700;
+line-height: 26px;
+text-align: center;
+}
+
+.ui-datepicker .ui-datepicker-prev span {
+background: url("data:image/svg+xml;base64,PCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHdpZHRoPSI3cHgiIGhlaWdodD0iMTFweCIgdmlld0JveD0iMCAwIDcgMTEiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDcgMTEiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPGc+DQoJPGc+DQoJCTxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBmaWxsPSIjRkZGRkZGIiBkPSJNMC40MDYsNC41NTdDMC40MTIsNC41NTEsMC40Miw0LjU1LDAuNDI2LDQuNTQ0DQoJCQljMC4wMDEtMC4wMDEsMC4wMDEtMC4wMDIsMC4wMDItMC4wMDNMNC41OSwwLjQxMWMwLjU0Ny0wLjUzNywxLjQzNC0wLjUzNywxLjk4LDBjMC41NDcsMC41MzcsMC41NDcsMS40MDgsMCwxLjk0NUwzLjM3OSw1LjUyMg0KCQkJbDMuMjEyLDMuMTIzYzAuNTQ3LDAuNTM2LDAuNTQ3LDEuNDA3LDAsMS45NDRzLTEuNDM0LDAuNTM3LTEuOTgsMEwwLjQwNiw2LjUwMkMtMC4xNDEsNS45NjUtMC4xNDEsNS4wOTQsMC40MDYsNC41NTd6Ii8+DQoJPC9nPg0KPC9nPg0KPC9zdmc+DQo=") no-repeat scroll center center rgba(0, 0, 0, 0);
+}
+.ui-datepicker .ui-datepicker-next {
+right: 10px;
+}
+.ui-datepicker .ui-datepicker-next span {
+background: url("data:image/svg+xml;base64,PCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHdpZHRoPSI3cHgiIGhlaWdodD0iMTFweCIgdmlld0JveD0iMCAwIDcgMTEiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDcgMTEiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPGc+DQoJPGc+DQoJCTxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBmaWxsPSIjRkZGRkZGIiBkPSJNNi41OTIsNC41NTdDNi41ODYsNC41NTEsNi41NzgsNC41NSw2LjU3Miw0LjU0NA0KCQkJQzYuNTcxLDQuNTQzLDYuNTcxLDQuNTQyLDYuNTcsNC41NDJMMi40MDgsMC40MTFjLTAuNTQ3LTAuNTM3LTEuNDMzLTAuNTM3LTEuOTc5LDBjLTAuNTQ3LDAuNTM3LTAuNTQ3LDEuNDA4LDAsMS45NDVsMy4xOSwzLjE2Nw0KCQkJTDAuNDA2LDguNjQ2Yy0wLjU0NiwwLjUzNi0wLjU0NiwxLjQwNywwLDEuOTQ0YzAuNTQ3LDAuNTM3LDEuNDM0LDAuNTM3LDEuOTgsMGw0LjIwNi00LjA4OEM3LjEzOSw1Ljk2NSw3LjEzOSw1LjA5NCw2LjU5Miw0LjU1N3oNCgkJCSIvPg0KCTwvZz4NCjwvZz4NCjwvc3ZnPg0K") no-repeat scroll center center rgba(0, 0, 0, 0);
+}
+
+.ui-datepicker th {
+background: none repeat scroll 0 0 #F1F1EF;
+border: 0 none;
+color: #4F4F4B;
+font-size: 11px;
+height: 25px;
+padding: 0;
+text-align: center;
+text-transform: capitalize;
+}
+
+.ui-datepicker th span {
+display: block;
+line-height: 20px;
+padding-top: 3px;
+text-indent: 4px;
+width: 35px;
+}
+
+.ui-datepicker td {
+border: 1px solid #EFF1F2;
+padding: 0;
+vertical-align: top;
+}
+
+.ui-datepicker td a.ui-state-default{
+background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+border: 0 none;
+color: #504E47;
+text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.ui-datepicker td a.ui-state-default:active,
+.ui-datepicker td a.ui-state-active{
+background: none repeat scroll 0 0 #00AEEC;
+border: 0 none;
+color: #FFFFFF;
+z-index: 2;
+}
+
+.ui-datepicker td.ui-datepicker-today a.ui-state-default{
+background-color: rgba(0, 0, 0, 0);
+color: #EB581F;
+}
+.ui-datepicker td.ui-datepicker-today a.ui-state-hover{
+box-shadow: 0 0 0 3px #FCF1C7 inset;
+}
+
+.ui-datepicker .ui-datepicker-prev-hover,
+.ui-datepicker .ui-datepicker-next-hover{
+background: none;
+border: none;
+cursor: pointer;	
+}
+
+.ui-datepicker-nav, .ui-datepicker .ui-datepicker-prev, 
+.ui-datepicker .ui-datepicker-next {
+top: 7px;
+}
+
+body#GuiForm .ui-datepicker .ui-datepicker-prev, 
+body#GuiForm .ui-datepicker .ui-datepicker-next {
+top: 4px;
+}
+
+.ui-datepicker .ui-datepicker-prev {
+left: 3px;
+}
+
+.ui-datepicker .ui-datepicker-next {
+right: 3px;
+}
+
+.ui-datepicker .ui-datepicker-title select,
+#canvas .ui-datepicker .ui-datepicker-title select  {
+margin-right: 5px;
+width: 48%;
+font-weight: normal;
+height: 22px;
+padding: 0;
+}
+
+#canvas .ui-datepicker .ui-datepicker-header  {
+min-height: 40px;
+}
+
+#canvas .ui-datepicker .ui-datepicker-title select  {
+width: 47%;
+}
+
+#canvas .ui-datepicker-inline{
+	width: 100% !important;
+}
+
+.ui-datepicker .ui-datepicker-title select:last-of-type{
+margin-right: 0px;
+}
+
+.ui-datepicker td span, 
+.ui-datepicker td a{
+font-size: 13px;
+height: 25px;
+padding: 3px;
+text-align: center;
+width: auto;
+}
+
+.ui-datepicker .ui-datepicker-buttonpane {
+margin: 0;
+}
+
+.ui-datepicker .ui-datepicker-buttonpane button {
+font-size: 14px;
+}
+
+/*- Start timepicker ----------------------------------------*/
+.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+.ui-timepicker-div dl { text-align: left; margin: 5px;}
+
+.ui-timepicker-div dl dt { float: left; clear:left; padding: 5px 0 0 5px; font-size: 12px;}
+.ui-timepicker-div dl dd { padding: 1px 0; margin: 0 10px 0 35%; font-size: 12px; font-weight: bold;}
+.ui-timepicker-div dl dt.ui_tpicker_time_label{padding-top: 1px;}
+.ui-timepicker-div td { font-size: 90%; }
+.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+
+.ui-timepicker-rtl{ direction: rtl; }
+.ui-timepicker-rtl dl { text-align: right; padding: 0 5px 0 0; }
+.ui-timepicker-rtl dl dt{ float: right; clear: right; }
+.ui-timepicker-rtl dl dd { margin: 0 40% 10px 10px; }
+
+
+.ui-datepicker-multi-2 .ui-timepicker-div dl dd{
+margin: 0 20px 10px 20%;
+}
+
+.ui-datepicker-multi-3 .ui-timepicker-div dl dd{
+margin: 0 20px 10px 15%;
+}
+
+#canvas .ui-accordion-content{
+padding: 10px 0;
+}
+
+#canvas .ui-accordion-content .item:not(.merge){
+padding: 5px 9px;
+}
+
+/*- Start switch-button ----------------------------------------*/
+.switch-button-label {
+float: left;
+font-size: 10pt;
+cursor: pointer;
+margin-top: 5px;
+}
+
+.switch-button-label.off {
+color: #adadad;
+}
+
+.switch-button-label.on {
+color: #0088CC;
+}
+
+.switch-button-background {
+float: left;
+position: relative;
+background: #ccc;
+border: 1px solid #aaa;
+margin: 1px 10px;
+-webkit-border-radius: 4px;
+-moz-border-radius: 4px;
+border-radius: 4px;
+cursor: pointer;
+}
+
+.switch-button-button {
+position: absolute;
+left: -1px;
+top : -1px;
+background: #FAFAFA;
+border: 1px solid #aaa;
+-webkit-border-radius: 4px;
+-moz-border-radius: 4px;
+border-radius: 4px;
+}
+
+.switch-button-background.checked .switch-button-button{
+background: none repeat scroll 0 0 #7AD03A
+}
+
+/*------------------------ End Jquery UI ----------------------------------------*/
+
+/*------------------------ Start TINYMCE ----------------------------------------*/
+.mce-floatpanel{
+	z-index: 999999 !important;
+}
+/*------------------------ End TINYMCE ----------------------------------------*/
+
+
+/*------------------------ Start SPECTRUM ----------------------------------------*/
+.sp-picker-container{
+width: 204px;
+}
+
+.sp-button-container{
+clear: both;
+float: none;
+text-align: right;
+}
+
+.colorpicker .sp-input-container{
+width: 175px;	
+}
+
+.sp-input{
+width: 100% !important; 
+padding: 5px;
+}
+
+body#GuiForm .sp-input{
+background: #FFFFFF; 
+padding: 2.5px;
+}
+
+#canvas button.sp-choose{
+float: none;
+padding: 5px 15px !important;
+}
+
+.sp-cancel{
+margin: 9px 10px;
+display: inline-block;
+}
+
+.sp-container button{
+background-color: #21759B;
+background-image: linear-gradient(to bottom, #2A95C5, #21759B);
+border-color: #21759B #21759B #1E6A8D;
+border-style: solid;
+border-width: 1px;
+color: #FFFFFF;
+cursor: pointer;
+padding: 6px 20px;
+font-size: 12px;
+text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+line-height: 18px;
+font-weight: bold;
+transition: all 0.3s ease-in-out 0s;
+}
+
+.sp-replacer {
+padding: 5px;
+vertical-align: bottom;
+margin-left: -1px;
+}
+
+/*------------------------ End SPECTRUM ----------------------------------------*/
+
+
+textarea{
+padding: 6px;
+}
+
+input{
+padding: 6px;
+}
+
+input[type="file"]{
+padding: 2px;
+}
+
+#canvas select {
+padding: 5px 6px;
+height: auto;
+}
+
+select option{
+margin: 6px;
+}
+
+textarea{
+position: relative;
+resize: vertical;
+}
+
+textarea, input, select {
+font-size: inherit;
+font-weight: inherit;
+margin: 1px;
+outline: 0 none;
+line-height: normal;
+}
+
+input[type="checkbox"], 
+input[type="radio"]{
+padding: 0;
+vertical-align: top;
+}
+
+#container{
+display: inline-table; /*-- do not change this line--*/
+}
+
+#canvas{
+display: table;  /*-- do not change this line--*/
+font-size: 14px;
+background-color: #FFFFFF;
+color: #464646;
+padding: 5px 0;
+}
+
+input[type="file"]{
+background-color: #FFFFFF;
+}
+
+#canvas .error-message{
+background: none repeat scroll 0 0 #E65E5E;
+border: 1px solid #FF0000;
+border-radius: 3px 3px 3px 3px;
+box-shadow: 0 0 3px #E15353;
+clear: both;
+color: #FFFFFF;
+display: inline-block;
+margin-top: 3px;
+padding: 5px;
+font-size: 12px;
+position: relative;
+text-shadow: -1px 1px 1px rgba(0, 0, 0, 0.35);
+}
+
+#canvas .error-message .arrow {
+width: 30px;
+height: 10px;
+overflow: hidden;
+position: absolute;
+left: 50%;
+bottom: -16px;
+margin-left: 0;
+}
+
+#canvas .error-message .arrow.top {
+top: -16px;
+bottom: auto;
+}
+#canvas .error-message .arrow.left {
+left: 0%;
+top: -10px;
+}
+#canvas .error-message .arrow:after {
+background: none repeat scroll 0 0 #E65E5E;
+border: 1px solid #FF0000;
+content: "";
+position: absolute;
+top: -20px;
+width: 20px;
+left: 10px;
+height: 20px;
+box-shadow: 6px 5px 9px -9px black;
+-webkit-transform: rotate(45deg);
+-moz-transform: rotate(45deg);
+-ms-transform: rotate(45deg);
+-o-transform: rotate(45deg);
+tranform: rotate(45deg);
+}
+
+#canvas .error-message .arrow.top:after {
+bottom: -14px;
+top: auto;
+z-index: 1;
+}
+
+#canvas .error{
+border: 1px solid red !important;
+}
+
+#canvas .folding .error{
+border: medium none !important;
+color: #FF0000;
+}
+
+#canvas input.error,
+#canvas select.error,
+#canvas textarea.error,
+#canvas .guif-dropzone.error{
+border: 1px solid #E15353;
+box-shadow: 0 0 3px #E15353;
+background: #FFD5D6;
+text-shadow: -1px 1px 1px rgba(0, 0, 0, 0.35);
+}
+
+#canvas p.error{
+color: red;
+border: none;
+padding-top: 5px;
+clear: both;
+}
+
+#canvas .error .ui-spinner-button{
+border-left: 1px solid red;	
+}
+
+.ui-buttonset.error .ui-state-default, 
+.ui-buttonset.error .ui-widget-content .ui-state-default, 
+.ui-buttonset.error .ui-widget-header .ui-state-default{
+border: 1px solid #E15353;
+box-shadow: 0 0 3px #E15353;	
+}
+
+#canvas .ui-spinner.error{
+box-shadow: 0 0 3px #E15353;
+background: #FFD5D6 	
+}
+
+#canvas .ui-buttonset.error,
+#canvas .ui-spinner-input.error{
+border: none;	
+box-shadow: none;
+}
+
+#canvas #containment{
+margin-right: 10px;
+padding: 10px;
+}
+
+#canvas ul.ui-sortable{
+background: none;
+border: none;
+display: inherit;
+list-style: none outside none;
+}
+
+#canvas ul ul{
+padding: 0;
+min-height: auto;
+min-height: auto;
+}
+
+#canvas ul ul.folding{
+display: inline-table;
+width: 100%;
+}
+
+
+#canvas .ui-sortable li.ui-state-highlight{
+background: #F8FFF0;
+border: 1px dashed green;
+color: #363636;
+position: relative;
+z-index: 0;
+display: inline-table;
+padding: 5px 15px;
+}
+
+#canvas ul li.item{
+list-style: none outside none;	
+}
+
+#canvas ul .item.hide-label .label{
+display: none;
+}
+
+#canvas li.item.align-left{
+text-align: left;
+}
+
+#canvas li.item.align-right{
+text-align: right;
+}
+
+#canvas li.item.align-center{
+text-align: center;
+}
+
+#canvas .active{
+background: #EAEAEA;
+width: auto;
+border: 1px solid #CCCCCC;
+}
+
+#canvas .selected{
+background: #FFFBCC;
+width: auto;
+border: 1px solid #E6DB55;
+}
+
+#canvas li{
+border: 1px solid transparent;
+cursor: move;
+clear: both;
+padding: 5px 10px;
+}
+
+#canvas li:hover{
+border: 1px solid #CCCCCC;
+}
+
+#canvas li .label{
+display: inline-block;
+float: left;
+padding-right: 1%;
+font-weight: bold;
+line-height: 23px;
+width: 150px;
+font-size: 14px;
+}
+
+#canvas li .label span{
+margin-left: 2px;
+}
+
+/*-- BEGIN f_list style --*/
+#canvas .f_list li{
+padding: 3px 0;
+}
+
+#canvas .f_list li a{
+color:#0074A2;
+text-decoration: none;
+}
+
+#canvas .f_list li a:hover{
+color: blue;
+text-decoration: underline;
+}
+
+#canvas .f_list ul{
+list-style-type: disc;
+list-style-position: outside;
+padding-left: 35px;
+}
+
+#canvas .f_list ul.disc{
+list-style-type: disc;
+}
+
+#canvas .f_list ul.square{
+list-style-type: square;
+}
+
+#canvas .f_list ul.circle{
+list-style-type: circle;
+}
+
+#canvas .f_list ul.decimal{
+list-style-type: decimal;
+}
+
+#canvas .f_list ul.decimal-leading-zero{
+list-style-type: decimal-leading-zero;
+}
+
+#canvas .f_list ul.lower-roman{
+list-style-type: lower-roman;
+}
+
+#canvas .f_list ul.upper-roman{
+list-style-type: upper-roman;
+}
+
+#canvas .f_list ul.lower-greek{
+list-style-type: lower-greek;
+}
+
+#canvas .f_list ul.lower-alpha{
+list-style-type: lower-alpha;
+}
+
+#canvas .f_list ul.upper-alpha{
+list-style-type: upper-alpha;
+}
+
+#canvas .f_list ul.hiragana{
+list-style-type: hiragana;
+}
+
+#canvas .f_list ul.katakana{
+list-style-type: katakana;
+}
+
+/*-- END f_list style --*/
+
+#canvas .f_heading *{
+line-height: normal;
+}
+
+#canvas .f_heading .sub-text{
+font-weight: normal;
+line-height: 18px;
+font-size: 10px;
+letter-spacing: 0px;
+}
+
+#canvas .f_letter p{
+margin: 0 0 13px;
+line-height: 20px;
+font-size: inherit;
+}
+
+#canvas .f_letter p:last-of-type{
+margin-bottom: 0;
+}
+
+#canvas .button-wrap{
+	text-align: right;
+}
+
+/*-- BEGIN f_radio_wrap f_checkbox_wrap style --*/
+#canvas .wrap,
+#canvas .f_radio_wrap,
+#canvas .f_checkbox_wrap{
+clear: both;
+margin: 0;
+}
+
+#canvas .f_radio_wrap,
+#canvas .f_checkbox_wrap{
+padding: 0;
+}
+
+#canvas .f_radio_wrap input,
+#canvas .f_checkbox_wrap input{
+border: medium none;
+vertical-align: top;
+margin: 2px 0 0;
+}
+
+#canvas .f_radio_wrap span,
+#canvas .f_checkbox_wrap span{
+display: inline-block;
+line-height: normal;
+margin-bottom: 8px;
+margin-left: 2%;
+width: 130px;
+}
+
+/*-- END f_radio_wrap f_checkbox_wrap style --*/
+
+#canvas .f_folding h1{
+font-size: 18px;
+padding: 10px 5px;
+}
+
+#canvas .f_folding span{
+display: inline-block;
+margin: 0 10px 0 0;
+}
+
+#canvas .f_submit.blockLine .wrap{
+display: block;
+float: none;
+}
+
+#canvas .f_submit span{
+display: inline-block;
+}
+
+#canvas .wrap span.ui-button-text{
+line-height: normal;
+padding: 6px 12px;
+}
+
+#canvas .merge{
+padding: 0;	
+}
+
+#canvas .merge-item{
+display: block;
+padding: 5px 0px;	
+margin: 1px 0;
+}
+
+#canvas .merge-item.active{
+border: medium none;	
+background-color: #70c468;
+}
+
+#canvas .shrink .wrap .button label {
+display: inline-block;
+margin-left: 0;
+}
+
+#canvas li .required{
+color: #FF0000;
+font-family: Tahoma !important;
+font-size: 21px;
+margin-left: 5px;
+vertical-align: top;
+}
+
+#canvas input[type="text"],
+#canvas input[type="file"],
+#canvas input[type="password"],
+#canvas select,
+#canvas textarea{
+width: 100%;
+margin: 0px;
+position: inherit;
+box-shadow: none;
+color: #AAAAAA;
+transition: all 0.3s ease-in-out 0s;
+}
+
+#canvas .f_color_picker input[type="text"]{
+display: inline-block !important;
+width: 154px;
+}
+
+#canvas .f_color_picker .sp-container.colorpicker{
+position: inherit !important;
+}
+
+#canvas input:focus,
+#canvas select:focus,
+#canvas textarea:focus{
+border: 1px solid #000000;
+color: #000000;
+}
+
+#canvas .f_spinner input:focus{
+border: none;
+}
+
+
+/*-- BEGIN f_file --*/
+
+#canvas .guif-dropzone{
+background-color: #E47E25;
+background: linear-gradient(to top, #E47E25 0%, #DD5725 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+border: 1px solid #854E03;
+color: #FFFFFF;
+position: relative;
+text-align: center;
+font-weight: bold;
+text-shadow: -1px 1px 1px rgba(0, 0, 0, 0.35);
+overflow: hidden;
+padding: 7px 10px;
+line-height: normal;
+}
+
+#canvas .guif-dropzone.drop{
+background-color: #FAA732;
+background: linear-gradient(to top, #FAA732, #E08305) repeat scroll 0 0 rgba(0, 0, 0, 0);
+border: 1px solid #D58512;
+}
+
+#canvas .guif-dropzone:hover{
+background-color: #BCBA35;
+background: linear-gradient(to top, #BCBA35, #999620) repeat scroll 0 0 rgba(0, 0, 0, 0);
+border: 1px solid #D58512;
+cursor: pointer;
+box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1) inset;
+}
+
+#canvas .guif-dropzone input[type="file"]{
+position: absolute;
+top: 0;
+right: 0;
+opacity: 0;
+filter: alpha(opacity=0);
+font-size: 160px;
+width: 250%;
+}
+
+#canvas .f_file .gui-files{
+clear: both;
+display: inline-block;
+width: 100%;
+}
+
+#canvas .f_file .gui-file{
+border-radius: 3px 3px 3px 3px;
+position: relative;
+border: 1px solid #4CAE4C;
+overflow: hidden;
+margin-top: 10px;
+}
+
+#canvas .f_file .gui-file:hover{
+color: #333333;	
+border: 1px solid red;
+}
+
+#canvas .f_file .gui-file-remove{
+color: #FF0000;
+display: none;
+font-size: 22px !important;
+padding: 2px 15px !important;
+text-shadow: -1px 1px 1px rgba(0, 0, 0, 0.35);
+}
+
+#canvas .f_file .gui-file:hover .gui-file-remove{
+background-color: #FF0000;
+bottom: 0;
+color: #FFFFFF;
+display: inline-block;
+font-size: 16px;
+font-weight: bold;
+padding: 2px 10px;
+position: absolute;
+right: 0;
+top: -3px;
+cursor: pointer;
+}
+
+#canvas .f_file .gui-file:hover .gui-file-remove.cancel{
+font-size: 14px;	
+}
+
+#canvas .f_file .gui-file-bar{
+border-radius: 3px 3px 3px 3px;
+bottom: 0;
+left: 0;
+position: absolute;
+background: none repeat scroll 0 0 #5CB85C;
+background: linear-gradient(center top, #5CB85C, #008000) repeat scroll 0 0 #5CB85C;
+top: 0;
+}
+
+#canvas .f_file .gui-file-bar.success{
+width: 100% !important;
+background: none repeat scroll 0 0 #00BF00;
+background: linear-gradient(center top, #00BF00, #008000) repeat scroll 0 0 #00BF00;
+}
+
+#canvas .f_file .gui-file-bar.error{
+width: 0%;
+}
+
+#canvas .f_file .gui-file-wrap{	
+background: none repeat scroll 0 0 #E65E5E;
+border-radius: 3px;
+padding: 7px;
+}
+
+#canvas .f_file .gui-file-name{
+float: left;
+max-width: 60%;
+overflow: hidden;
+position: relative;
+text-overflow: ellipsis;
+}
+
+#canvas .f_file .gui-file-size,
+#canvas .f_file .gui-file-error{
+float: right;
+position: relative;
+}
+
+/*-- END f_file style --*/
+
+/*-- START f_slider style --*/
+#canvas .f_slider input{
+color: #F6931F;
+font-weight: bold;
+text-align: right;
+padding: 0 10px;
+border: none;
+background: transparent;
+}
+
+#canvas .f_slider .slider-text{
+font-size: 11px;
+letter-spacing: normal;	
+}
+
+#canvas .f_slider strong{
+color: #FF8000;
+}
+
+#canvas .item.f_folding{
+padding: 5px 0;
+}
+
+#canvas button{
+background-color: #F5F5F5;
+border: 1px solid #AAAAAA;
+border-radius: 0.3em;
+box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05), 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 -1px 0 rgba(255, 255, 255, 0.1) inset;
+color: #333333 !important;
+display: inline-block;
+line-height: 100%;
+margin: 0 0.2em 0.3em 0;
+padding: 10px 20px;
+text-decoration: none !important;
+text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2);
+vertical-align: middle;
+white-space: nowrap;
+}
+
+
+#canvas .f_page_break button{
+padding: 8px 20px;
+}
+
+#canvas .f_page_break button:hover {
+background-color: #FFFFFF;
+text-decoration: none;
+}
+
+#canvas .f_page_break .page-next{
+background-color: #F9800F;
+border-color: #B57400;
+color: #FFFFFF !important;
+text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+}
+
+#canvas .f_page_break .page-next:hover {
+background-color: #FF9A22;
+}
+
+#canvas .page-content,
+#canvas .page-content.page-1 .page-back,
+#canvas .page-content:last-of-type .page-next{
+display: none;
+}
+
+#canvas .page-content.page-1{
+display: block;
+}
+
+.page-next:last-of-type {
+display: none;
+}
+
+#canvas .f_submit button[name='submit'] {
+background-color: #49B3FC;
+border-color: #0087B5;
+color: #FFFFFF !important;
+text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+}
+/*-- END f_slider style --*/
+
+
+/*-- BEGIN f_password style --*/
+#canvas select,
+#canvas input[type="password"]{
+width: 100%;
+}
+
+#canvas .guif-password{
+font-size: 13px;
+margin-top: 5px;
+}
+
+#canvas .guif-password span{
+display: inline !important;
+font-weight: bold;
+}
+
+#canvas .guif-password .progress{
+background-color: #CCCCCC;
+height: 6px;
+margin-top: 2px;
+overflow: hidden;
+}
+
+#canvas .guif-password .strength{
+height: 10px;
+width: 0;
+}
+
+#canvas .guif-password span:first-child{
+color: #0066FF;
+float: left;
+text-decoration: underline;
+}
+
+#canvas .guif-password span.text{
+float: right;
+color: #555555;
+}
+
+#canvas .guif-password .progress span{
+float: none;
+clear: both;
+}
+/*-- end f_password style --*/
+
+/*-- BEGIN f_image style --*/
+#canvas .f_image img{
+}
+
+/*-- END f_image style --*/
+
+#canvas .ui-datepicker-buttonpane button{
+margin: 5px;
+}
+
+#canvas .ui_tpicker_timezone select{
+padding: 1px;
+}
+
+body#GuiForm #canvas button{
+padding: 8px 18.5px;
+}
+
+/* saf3+, chrome1+ */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+	body#GuiForm #canvas button{
+		padding: 8px 21.5px;
+	}
+}
+
+/* Opera */
+doesnotexist:-o-prefocus, body#GuiForm #canvas button{
+    padding: 8px 22.5px;
+}
+
+#canvas button[type="reset"]{
+background: none repeat scroll 0 0 #F7F7F7;
+border-color: #555555;
+box-shadow: 0 1px 0 #FFFFFF inset, 0 1px 0 rgba(0, 0, 0, 0.08);
+color: #555555;
+vertical-align: top;
+margin-right: 5px;
+margin-bottom: 10px;
+float: left;
+}
+
+#canvas button[type="reset"]:hover,
+#canvas button[type="reset"]:active{
+background: none repeat scroll 0 0 #EEEEEE;
+border-color: #999999;
+box-shadow: 0 2px 5px -3px rgba(0, 0, 0, 0.5) inset;
+color: #333333;
+}
+
+#canvas button[type="submit"]:active,
+#canvas input[type="button"]:active,
+#canvas button[type="submit"]:hover,
+#canvas input[type="button"]:hover
+.sp-container button:active,
+button:active{
+background: none repeat scroll 0 0 #1E8CBE;
+border-color: #005684;
+box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1) inset;
+color: rgba(255, 255, 255, 0.95);
+vertical-align: top;
+}
+
+#canvas button[type="submit"].disabled{
+background-color: #AAAAAA;
+background-image: linear-gradient(to bottom, #AAAAAA, #DDDDDD);
+}
+
+body#GuiForm textarea{
+resize: vertical;
+}
+
+#canvas textarea{
+position: relative;
+z-index: 0;
+height: 150px;
+overflow: auto;
+min-height: 100px;
+}
+
+#canvas .shrink,
+#canvas li.top-align{
+display: inline-block;
+clear: none;
+float: none;
+}
+
+#canvas .shrink .label,
+#canvas li.top-align .label{
+display: block;
+width: 100%;
+float: none;
+padding: 0;
+}
+
+#canvas .shrink .wrapper label{
+display: inline;
+width: 100%;
+float: none;
+}
+
+#canvas .blockLine{
+float: none;
+clear: both;
+}
+
+#canvas .floatLine{
+display: inline-block;
+float: left;
+clear: none;
+}
+
+#canvas .merge-item{
+padding: 5px 10px;
+}
+
+#canvas li.merge .floatLine:first-child,
+#canvas li.merge .floatLine.nextLine{
+margin-left: 0px;
+}
+
+#canvas .nextLine{
+clear: both;
+}
+
+#canvas .expand .wrap{
+clear: none;
+float: right;
+display: inline-block;
+}
+
+#canvas .f_letter .wrap,
+#canvas .f_heading .wrap,
+#canvas .f_list .wrap{
+display: block !important;
+float: none !important;
+}
+
+#canvas .short-description{
+font-family: "Open Sans";
+font-size: 12px;
+letter-spacing: 1px;
+margin-top: 5px;
+}
+
+#canvas .ui-spinner-input{
+border: medium none;
+padding: 3px 20px 3px 3px;
+background-color: #FFFFFF;
+}
+
+/*------------------------ End canvas ----------------------------------------*/
+
+/*------------------------ Start frontend css ----------------------------------------*/
+
+form.GuiForm .item.none{
+	display: none;
+}
+
+form.GuiForm .item.hidden{
+	visibility: hidden;
+}
+
+
+
+/*------------------------ End frontend css ----------------------------------------*/
+
+
+body#GuiForm,
+body#GuiForm #containment{
+margin: 0px;
+padding: 0px;
+border: medium none;
+
+}
+
+body#GuiForm #canvas{
+height: auto !important;
+margin: auto;
+width: 100%;
+}
+
+body#GuiForm #canvas ul#sortable{
+margin: 0px !important;
+padding: 0px !important;
+list-style: none outside none;
+}
+
+body#GuiForm #canvas li{
+cursor: inherit;
+}
+
+body#GuiForm #canvas li:hover{
+border: 1px solid transparent;
+cursor: inherit;
+}
+
+
+/*-Start Animate CSS------------------------------------*/
+
+.gui-file.selected{
+opacity: 0;	
+color: #333333;
+background-color: #3A87AD !important;
+}
+
+.gui-file.restored-item {
+color: #FFFFFF;
+text-shadow: -1px 1px 1px rgba(0, 0, 0, 0.35);
+animation: openspace .3s ease forwards, restored-item-animation .3s .3s cubic-bezier(0,.8,.32,1.07) forwards;
+-webkit-animation: openspace .3s ease forwards, restored-item-animation .3s .3s cubic-bezier(0,.8,.32,1.07) forwards;
+-moz-animation: openspace .3s ease forwards, restored-item-animation .3s .3s cubic-bezier(0,.8,.32,1.07) forwards;
+-o-animation: openspace .3s ease forwards, restored-item-animation .3s .3s cubic-bezier(0,.8,.32,1.07) forwards;
+}
+
+@keyframes restored-item-animation {
+  from {
+    opacity: 0;
+    transform: scale(0);
+    -webkit-transform: scale(0);
+    -moz-transform: scale(0);
+    -o-transform: scale(0);
+  }
+ 
+  to {
+    opacity: 1;
+    transform: scale(1);
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -o-transform: scale(1);
+  }
+}
+
+
+.gui-file.removed-item {
+animation: removed-item-animation .6s cubic-bezier(.55,-0.04,.91,.94) forwards;
+}
+ 
+@keyframes removed-item-animation {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+ 
+  to {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
+ 
+/*------------------------ Start Tooltip CSS ----------------------------------------*/
+
+body .ui-tooltip, .arrow:after {
+background: none repeat scroll 0 0 #E65E5E;
+border: 1px solid #FF0000 !important;
+}
+
+body .ui-tooltip{
+padding: 8px 10px;
+color: #FFFFFF;
+text-shadow: -1px 1px 1px rgba(0, 0, 0, 0.35);
+-webkit-border-radius: 10px;
+-moz-border-radius: 10px;
+border-radius: 5px;
+font: normal 12px "Helvetica Neue", Sans-Serif;
+box-shadow: 0 0 7px black;
+}
+
+body .arrow {
+width: 70px;
+height: 16px;
+overflow: hidden;
+position: absolute;
+left: 50%;
+margin-left: -35px;
+bottom: -16px;
+}
+
+body .arrow.top {
+top: -16px;
+bottom: auto;
+}
+
+body .arrow.left {
+left: 20%;
+}
+
+body .arrow:after {
+content: "";
+position: absolute;
+left: 20px;
+top: -20px;
+width: 25px;
+height: 25px;
+box-shadow: 6px 5px 9px -9px black;
+-webkit-transform: rotate(45deg);
+-moz-transform: rotate(45deg);
+-ms-transform: rotate(45deg);
+-o-transform: rotate(45deg);
+tranform: rotate(45deg);
+}
+
+body .arrow.top:after {
+bottom: -20px;
+top: auto;
+}
+
+@import "print.css";  
